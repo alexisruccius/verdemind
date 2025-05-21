@@ -1,0 +1,59 @@
+<.header>
+  Listing Plants
+  <:actions>
+    <.link patch={~p"/plants/new"}>
+      <.button>New Plant</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="plants"
+  rows={@streams.plants}
+  row_click={fn {_id, plant} -> JS.navigate(~p"/plants/#{plant}") end}
+>
+  <:col :let={{_id, plant}} label="Name">{plant.name}</:col>
+  <:col :let={{_id, plant}} label="Scientific name">{plant.scientific_name}</:col>
+  <:col :let={{_id, plant}} label="Location">{plant.location}</:col>
+  <:col :let={{_id, plant}} label="Native to">{plant.native_to}</:col>
+  <:col :let={{_id, plant}} label="Plant type">{plant.plant_type}</:col>
+  <:col :let={{_id, plant}} label="Environment">{plant.environment}</:col>
+  <:col :let={{_id, plant}} label="Light requirements">{plant.light_requirements}</:col>
+  <:col :let={{_id, plant}} label="Soil">{plant.soil}</:col>
+  <:col :let={{_id, plant}} label="Height">{plant.height}</:col>
+  <:col :let={{_id, plant}} label="Growth season">{plant.growth_season}</:col>
+  <:col :let={{_id, plant}} label="Harvesting">{plant.harvesting}</:col>
+  <:col :let={{_id, plant}} label="How to plant">{plant.how_to_plant}</:col>
+  <:col :let={{_id, plant}} label="How to water">{plant.how_to_water}</:col>
+  <:col :let={{_id, plant}} label="Watering frequency">{plant.watering_frequency}</:col>
+  <:col :let={{_id, plant}} label="Proliferation">{plant.proliferation}</:col>
+  <:col :let={{_id, plant}} label="Symbiosis with">{plant.symbiosis_with}</:col>
+  <:col :let={{_id, plant}} label="Uses">{plant.uses}</:col>
+  <:col :let={{_id, plant}} label="Common pests">{plant.common_pests}</:col>
+  <:col :let={{_id, plant}} label="Is this a plant">{plant.is_this_a_plant}</:col>
+  <:action :let={{_id, plant}}>
+    <div class="sr-only">
+      <.link navigate={~p"/plants/#{plant}"}>Show</.link>
+    </div>
+    <.link patch={~p"/plants/#{plant}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, plant}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: plant.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal :if={@live_action in [:new, :edit]} id="plant-modal" show on_cancel={JS.patch(~p"/plants")}>
+  <.live_component
+    module={VerdemindWeb.PlantLive.FormComponent}
+    id={@plant.id || :new}
+    title={@page_title}
+    action={@live_action}
+    plant={@plant}
+    patch={~p"/plants"}
+  />
+</.modal>

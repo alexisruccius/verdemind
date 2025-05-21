@@ -32,6 +32,9 @@ defmodule Verdemind.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:instructor_lite, "~> 0.3.0"},
+      # for :instructor_lite
+      {:req, "~> 0.5 or ~> 1.0"},
       {:phoenix, "~> 1.7.19"},
       {:phoenix_ecto, "~> 4.5"},
       {:ecto_sql, "~> 3.10"},

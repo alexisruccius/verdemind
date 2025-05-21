@@ -1,0 +1,44 @@
+<.header>
+  Plant {@plant.id}
+  <:subtitle>This is a plant record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/plants/#{@plant}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit plant</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name">{@plant.name}</:item>
+  <:item title="Scientific name">{@plant.scientific_name}</:item>
+  <:item title="Location">{@plant.location}</:item>
+  <:item title="Native to">{@plant.native_to}</:item>
+  <:item title="Plant type">{@plant.plant_type}</:item>
+  <:item title="Environment">{@plant.environment}</:item>
+  <:item title="Light requirements">{@plant.light_requirements}</:item>
+  <:item title="Soil">{@plant.soil}</:item>
+  <:item title="Height">{@plant.height}</:item>
+  <:item title="Growth season">{@plant.growth_season}</:item>
+  <:item title="Harvesting">{@plant.harvesting}</:item>
+  <:item title="How to plant">{@plant.how_to_plant}</:item>
+  <:item title="How to water">{@plant.how_to_water}</:item>
+  <:item title="Watering frequency">{@plant.watering_frequency}</:item>
+  <:item title="Proliferation">{@plant.proliferation}</:item>
+  <:item title="Symbiosis with">{@plant.symbiosis_with}</:item>
+  <:item title="Uses">{@plant.uses}</:item>
+  <:item title="Common pests">{@plant.common_pests}</:item>
+  <:item title="Is this a plant">{@plant.is_this_a_plant}</:item>
+</.list>
+
+<.back navigate={~p"/plants"}>Back to plants</.back>
+
+<.modal :if={@live_action == :edit} id="plant-modal" show on_cancel={JS.patch(~p"/plants/#{@plant}")}>
+  <.live_component
+    module={VerdemindWeb.PlantLive.FormComponent}
+    id={@plant.id}
+    title={@page_title}
+    action={@live_action}
+    plant={@plant}
+    patch={~p"/plants/#{@plant}"}
+  />
+</.modal>
