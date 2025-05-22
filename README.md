@@ -2,10 +2,6 @@
 
 An example Elixir project that generates plant info using **OpenAI** and **InstructorLite**, delivering real-time interactive insights with **Phoenix.LiveView** and persisting data in a **PostgreSQL** DB with **Ecto**.
 
-# Verdemind
-
-Verdemind is a Phoenix application that helps identify and describe plants using OpenAI's API.
-
 
 ## Getting Started
 
