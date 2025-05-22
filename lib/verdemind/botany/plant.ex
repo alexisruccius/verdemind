@@ -15,7 +15,7 @@ defmodule Verdemind.Botany.Plant do
   - environment: Ideal growing conditions for the plant.
   - light_requirements: Sunlight requirements (e.g., full sun, partial shade).
   - soil: Preferred soil type (e.g., loamy, sandy, well-drained).
-  - height: Typical mature height of the plant in cm.
+  - height: Enter the typical mature height of the plant (in centimeters).
   - growth_season: Seasons during which the plant grows or blooms.
   - harvesting: When and how to harvest the plant.
   - how_to_plant: Instructions for planting (e.g., seed depth, spacing).
