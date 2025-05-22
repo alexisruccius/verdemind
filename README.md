@@ -2,10 +2,78 @@
 
 An example Elixir project that generates plant info using **OpenAI** and **InstructorLite**, delivering real-time interactive insights with **Phoenix.LiveView** and persisting data in a **PostgreSQL** DB with **Ecto**.
 
-To start your Phoenix server:
+# Verdemind
 
-  * Run `mix setup` to install and setup dependencies
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+Verdemind is a Phoenix application that helps identify and describe plants using OpenAI's API.
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+
+## Getting Started
+
+To start the `Verdemind` Phoenix app:
+
+1. **Clone the repository:**
+
+   ```sh
+   git clone https://github.com/alexisruccius/verdemind.git
+   ```
+
+   ```sh
+   cd verdemind
+   ```
+
+2. **Install dependencies and set up the database:**
+
+   ```sh
+   mix setup
+   ```
+
+3. **Set your OpenAI API key:**
+
+   ```sh
+   export OPENAI_KEY="your_openai_key_here"
+   ```
+
+4. **Start the Phoenix server in IEx:**
+
+   ```sh
+   iex -S mix phx.server
+   ```
+
+5. **Query plant data (example):**
+
+   ```elixir
+   iex> Verdemind.InstructorQuery.ask("Rosemary", Verdemind.Botany.Plant)
+   {:ok,
+    %Verdemind.Botany.Plant{
+      id: 1,
+      name: "Rosemary",
+      scientific_name: "Rosmarinus officinalis",
+      native_to: "Mediterranean region",
+      plant_type: "Herb",
+      environment: "Well-drained soil, moderate to dry conditions",
+      light_requirements: "Full sun",
+      soil: "Well-drained, sandy or loamy soil",
+      height: "30 to 90",
+      growth_season: "Primarily spring and summer",
+      harvesting: "Harvest leaves as needed; for best flavor, cut stems before flowering.",
+      how_to_plant: "Plant seeds or cuttings 1 cm deep, spaced 60 cm apart.",
+      how_to_water: "Water thoroughly but allow soil to dry between watering to prevent root rot.",
+      watering_frequency: "Every 1–2 weeks, depending on soil moisture",
+      proliferation: "Seeds or cuttings",
+      symbiosis_with: "Thyme, sage, and lavender",
+      common_pests: "Spider mites, aphids, and root rot",
+      uses: "Culinary (used in cooking meats and stews, flavoring for breads) and medicinal (supports digestion, memory enhancement)",
+      location: "Mediterranean regions, commonly grown in gardens and pots worldwide",
+      is_this_a_plant: 100,
+      ...
+    }}
+   ```
+
+
+## Accessing the App
+
+**To Do**
+
+Once the server is running, open your browser and visit:  
+[http://localhost:4000](http://localhost:4000)
 
