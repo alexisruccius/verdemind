@@ -17,25 +17,29 @@ To start the `Verdemind` Phoenix app:
    cd verdemind
    ```
 
-2. **Install dependencies and set up the database:**
+2. **Ensure your PostgreSQL database is set up:**  
+   - see [Database Setup](#Database-Setup)
+
+
+3. **Install dependencies and set up the database:**
 
    ```sh
    mix setup
    ```
 
-3. **Set your OpenAI API key:**
+4. **Set your OpenAI API key:**
 
    ```sh
    export OPENAI_KEY="your_openai_key_here"
    ```
 
-4. **Start the Phoenix server in IEx:**
+5. **Start the Phoenix server in IEx:**
 
    ```sh
    iex -S mix phx.server
    ```
 
-5. **Query plant data (example):**
+6. **Query plant data (example):**
 
    ```elixir
    iex> Verdemind.InstructorQuery.ask("Rosemary", Verdemind.Botany.Plant)
@@ -68,8 +72,35 @@ To start the `Verdemind` Phoenix app:
 
 ## Accessing the App
 
-**To Do**
-
 Once the server is running, open your browser and visit:  
 [http://localhost:4000](http://localhost:4000)
+
+
+## Database Setup
+
+### PostgreSQL Setup
+
+Install PostgreSQL if you haven't already:  
+👉 [https://www.postgresql.org/download/](https://www.postgresql.org/download/)
+
+After installation, make sure PostgreSQL is running and create a default superuser:
+
+```sh
+createuser -s postgres
+psql -U postgres -c "ALTER USER postgres WITH PASSWORD 'postgres';"
+```
+
+### Configuration
+
+Your database settings in `config/dev.exs` should look like:
+
+```elixir
+config :verdemind, Verdemind.Repo,
+  username: "postgres",
+  password: "postgres",
+  hostname: "localhost",
+  database: "verdemind_dev",
+  ...
+```
+
 
