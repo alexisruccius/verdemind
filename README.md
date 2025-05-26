@@ -17,7 +17,7 @@ To start the `Verdemind` Phoenix app:
    cd verdemind
    ```
 
-2. **Ensure your PostgreSQL database is set up:**  
+2. **Ensure your PostgreSQL database is set up:**
    - see [Database Setup](#Database-Setup)
 
 
@@ -72,7 +72,7 @@ To start the `Verdemind` Phoenix app:
 
 ## Accessing the App
 
-Once the server is running, open your browser and visit:  
+Once the server is running, open your browser and visit:
 [http://localhost:4000](http://localhost:4000)
 
 
@@ -80,7 +80,7 @@ Once the server is running, open your browser and visit:
 
 ### PostgreSQL Setup
 
-Install PostgreSQL if you haven't already:  
+Install PostgreSQL if you haven't already:
 👉 [https://www.postgresql.org/download/](https://www.postgresql.org/download/)
 
 After installation, make sure PostgreSQL is running and create a default superuser:
