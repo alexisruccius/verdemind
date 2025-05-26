@@ -19,6 +19,8 @@ defmodule VerdemindWeb.Router do
 
     get "/", PageController, :home
 
+    live "/generate-plant", GeneratePlantLive
+
     live "/plants", PlantLive.Index, :index
     live "/plants/new", PlantLive.Index, :new
     live "/plants/:id/edit", PlantLive.Index, :edit
