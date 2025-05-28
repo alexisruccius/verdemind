@@ -17,10 +17,8 @@ defmodule VerdemindWeb.GeneratePlantLiveTest do
     test "create plant button renders plant", %{conn: conn} do
       {:ok, view, _html} = live(conn, "/generate-plant")
 
-      assert view
-             |> element("button", "create Rosemary")
-             |> render_click() =~ "%Verdemind.Botany.Plant{"
+      assert view |> element("button", "create Rosemary") |> render_click() =~ "asking ChatGPT..."
+      assert view |> render_async(8000) =~ ">Name</dt>"
     end
   end
-
 end
