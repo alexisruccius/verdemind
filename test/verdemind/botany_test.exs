@@ -8,7 +8,27 @@ defmodule Verdemind.BotanyTest do
 
     import Verdemind.BotanyFixtures
 
-    @invalid_attrs %{name: nil, location: nil, uses: nil, scientific_name: nil, native_to: nil, plant_type: nil, environment: nil, light_requirements: nil, soil: nil, height: nil, growth_season: nil, harvesting: nil, how_to_plant: nil, how_to_water: nil, watering_frequency: nil, proliferation: nil, symbiosis_with: nil, common_pests: nil, is_this_a_plant: nil}
+    @invalid_attrs %{
+      name: nil,
+      location: nil,
+      uses: nil,
+      scientific_name: nil,
+      native_to: nil,
+      plant_type: nil,
+      environment: nil,
+      light_requirements: nil,
+      soil: nil,
+      height: nil,
+      growth_season: nil,
+      harvesting: nil,
+      how_to_plant: nil,
+      how_to_water: nil,
+      watering_frequency: nil,
+      proliferation: nil,
+      symbiosis_with: nil,
+      common_pests: nil,
+      is_this_a_plant: nil
+    }
 
     test "list_plants/0 returns all plants" do
       plant = plant_fixture()
@@ -21,7 +41,27 @@ defmodule Verdemind.BotanyTest do
     end
 
     test "create_plant/1 with valid data creates a plant" do
-      valid_attrs = %{name: "some name", location: "some location", uses: "some uses", scientific_name: "some scientific_name", native_to: "some native_to", plant_type: "some plant_type", environment: "some environment", light_requirements: "some light_requirements", soil: "some soil", height: "some height", growth_season: "some growth_season", harvesting: "some harvesting", how_to_plant: "some how_to_plant", how_to_water: "some how_to_water", watering_frequency: "some watering_frequency", proliferation: "some proliferation", symbiosis_with: "some symbiosis_with", common_pests: "some common_pests", is_this_a_plant: 42}
+      valid_attrs = %{
+        name: "some name",
+        location: "some location",
+        uses: "some uses",
+        scientific_name: "some scientific_name",
+        native_to: "some native_to",
+        plant_type: "some plant_type",
+        environment: "some environment",
+        light_requirements: "some light_requirements",
+        soil: "some soil",
+        height: "some height",
+        growth_season: "some growth_season",
+        harvesting: "some harvesting",
+        how_to_plant: "some how_to_plant",
+        how_to_water: "some how_to_water",
+        watering_frequency: "some watering_frequency",
+        proliferation: "some proliferation",
+        symbiosis_with: "some symbiosis_with",
+        common_pests: "some common_pests",
+        is_this_a_plant: 42
+      }
 
       assert {:ok, %Plant{} = plant} = Botany.create_plant(valid_attrs)
       assert plant.name == "some name"
@@ -51,7 +91,28 @@ defmodule Verdemind.BotanyTest do
 
     test "update_plant/2 with valid data updates the plant" do
       plant = plant_fixture()
-      update_attrs = %{name: "some updated name", location: "some updated location", uses: "some updated uses", scientific_name: "some updated scientific_name", native_to: "some updated native_to", plant_type: "some updated plant_type", environment: "some updated environment", light_requirements: "some updated light_requirements", soil: "some updated soil", height: "some updated height", growth_season: "some updated growth_season", harvesting: "some updated harvesting", how_to_plant: "some updated how_to_plant", how_to_water: "some updated how_to_water", watering_frequency: "some updated watering_frequency", proliferation: "some updated proliferation", symbiosis_with: "some updated symbiosis_with", common_pests: "some updated common_pests", is_this_a_plant: 43}
+
+      update_attrs = %{
+        name: "some updated name",
+        location: "some updated location",
+        uses: "some updated uses",
+        scientific_name: "some updated scientific_name",
+        native_to: "some updated native_to",
+        plant_type: "some updated plant_type",
+        environment: "some updated environment",
+        light_requirements: "some updated light_requirements",
+        soil: "some updated soil",
+        height: "some updated height",
+        growth_season: "some updated growth_season",
+        harvesting: "some updated harvesting",
+        how_to_plant: "some updated how_to_plant",
+        how_to_water: "some updated how_to_water",
+        watering_frequency: "some updated watering_frequency",
+        proliferation: "some updated proliferation",
+        symbiosis_with: "some updated symbiosis_with",
+        common_pests: "some updated common_pests",
+        is_this_a_plant: 43
+      }
 
       assert {:ok, %Plant{} = plant} = Botany.update_plant(plant, update_attrs)
       assert plant.name == "some updated name"

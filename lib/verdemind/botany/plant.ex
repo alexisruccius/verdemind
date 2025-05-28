@@ -53,7 +53,47 @@ defmodule Verdemind.Botany.Plant do
   @doc false
   def changeset(plant, attrs) do
     plant
-    |> cast(attrs, [:name, :scientific_name, :location, :native_to, :plant_type, :environment, :light_requirements, :soil, :height, :growth_season, :harvesting, :how_to_plant, :how_to_water, :watering_frequency, :proliferation, :symbiosis_with, :uses, :common_pests, :is_this_a_plant])
-    |> validate_required([:name, :scientific_name, :location, :native_to, :plant_type, :environment, :light_requirements, :soil, :height, :growth_season, :harvesting, :how_to_plant, :how_to_water, :watering_frequency, :proliferation, :symbiosis_with, :uses, :common_pests, :is_this_a_plant])
+    |> cast(attrs, [
+      :name,
+      :scientific_name,
+      :location,
+      :native_to,
+      :plant_type,
+      :environment,
+      :light_requirements,
+      :soil,
+      :height,
+      :growth_season,
+      :harvesting,
+      :how_to_plant,
+      :how_to_water,
+      :watering_frequency,
+      :proliferation,
+      :symbiosis_with,
+      :uses,
+      :common_pests,
+      :is_this_a_plant
+    ])
+    |> validate_required([
+      :name,
+      :scientific_name,
+      :location,
+      :native_to,
+      :plant_type,
+      :environment,
+      :light_requirements,
+      :soil,
+      :height,
+      :growth_season,
+      :harvesting,
+      :how_to_plant,
+      :how_to_water,
+      :watering_frequency,
+      :proliferation,
+      :symbiosis_with,
+      :uses,
+      :common_pests,
+      :is_this_a_plant
+    ])
   end
 end
