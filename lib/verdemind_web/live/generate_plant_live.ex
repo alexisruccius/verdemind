@@ -8,24 +8,25 @@ defmodule VerdemindWeb.GeneratePlantLive do
   def render(assigns) do
     ~H"""
     <h1 class="text-lg py-4">Generate Plant</h1>
-    <dev class="grid">
+    <.form id="plant-name-form" for={@form} phx-update="ignore" phx-submit="create-plant">
+      <.input type="text" field={@form[:name]} placeholder="Rosemary"/>
       <button
-        phx-click="create_plant"
-        phx-value-name="Rosemary"
         class="bg-stone-500 hover:bg-stone-700 text-white font-bold py-2 px-4 my-4 rounded"
       >
-        create Rosemary
+        create Plant
       </button>
+    </.form>
+    <dev class="grid">
       <.plant_async plant={@plant} />
     </dev>
     """
   end
 
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, plant: %AsyncResult{})}
+    {:ok, assign(socket, plant: %AsyncResult{}, form: to_form(%{}))}
   end
 
-  def handle_event("create_plant", params, socket) do
+  def handle_event("create-plant", params, socket) do
     %{"name" => name} = params
 
     {:noreply,
