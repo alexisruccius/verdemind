@@ -3,40 +3,54 @@ defmodule VerdemindWeb.GeneratePlantLive do
 
   alias Phoenix.LiveView.AsyncResult
   alias Verdemind.InstructorQuery
+  alias Verdemind.Botany
   alias Verdemind.Botany.Plant
+  alias Verdemind.Botany.GeneratePlant
 
   def render(assigns) do
     ~H"""
     <h1 class="text-lg py-4">Generate Plant</h1>
-    <.form id="plant-name-form" for={@form} phx-update="ignore" phx-submit="create-plant">
-      <.input type="text" field={@form[:name]} placeholder="Rosemary"/>
-      <button
-        class="bg-stone-500 hover:bg-stone-700 text-white font-bold py-2 px-4 my-4 rounded"
-      >
-        create Plant
-      </button>
+    <.form id="generate-plant-form" for={@form} phx-change="validate" phx-submit="generate-plant">
+      <.input type="text" field={@form[:name]} placeholder="Rosemary" autofocus />
+      <.submit_button form={@form} message="generate plant" />
     </.form>
-    <dev class="grid">
-      <.plant_async plant={@plant} />
-    </dev>
+    <.plant_async plant={@plant} />
     """
   end
 
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, plant: %AsyncResult{}, form: to_form(%{}))}
+    {:ok,
+     assign(socket,
+       plant: %AsyncResult{},
+       form: to_form(Botany.change_gererate_plant(%GeneratePlant{}))
+     )}
   end
 
-  def handle_event("create-plant", params, socket) do
-    %{"name" => name} = params
+  def handle_event("generate-plant", params, socket) do
+    %{"generate_plant" => %{"name" => name}} = params
 
     {:noreply,
-     socket |> assign_async(:plant, fn -> {:ok, %{plant: plant_from_instructor(name)}} end)}
+     socket
+     |> assign_async(:plant, fn -> {:ok, %{plant: plant_from_instructor(name)}} end, reset: true)}
+  end
+
+  def handle_event("validate", params, socket) do
+    %{"generate_plant" => generate_plant_params} = params
+
+    form =
+      %GeneratePlant{}
+      |> Botany.change_gererate_plant(generate_plant_params)
+      |> to_form(action: :validate)
+
+    {:noreply, socket |> assign(form: form)}
   end
 
   defp plant_from_instructor(name) do
     {:ok, plant} = InstructorQuery.ask(name, Plant)
     plant
   end
+
+  # components ->
 
   attr :plant, AsyncResult, required: true
 
@@ -60,13 +74,37 @@ defmodule VerdemindWeb.GeneratePlantLive do
       <dev :if={@item_async.loading} class="flex flex-row justify-start">
         <dev class="px-2 pt-1">
           <span class="relative flex size-3">
-            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-stone-400 opacity-75">
+            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-lime-400 opacity-75">
             </span>
-            <span class="relative inline-flex size-3 rounded-full bg-stone-500"></span>
+            <span class="relative inline-flex size-3 rounded-full bg-lime-500"></span>
           </span>
         </dev>
         <dev>{@message}</dev>
       </dev>
+    </dev>
+    """
+  end
+
+  attr :form, Phoenix.HTML.Form, required: true
+  attr :message, :string, default: "submit"
+
+  def submit_button(assigns) do
+    ~H"""
+    <dev>
+      <button
+        :if={@form.source.valid?}
+        class="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 my-4 rounded"
+      >
+        {@message}
+      </button>
+      <button
+        :if={not @form.source.valid?}
+        class="bg-stone-400 text-white blur-[1px] font-bold py-2 px-4 my-4 rounded"
+        type="button"
+        disabled
+      >
+        {@message}
+      </button>
     </dev>
     """
   end

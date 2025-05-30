@@ -5,6 +5,7 @@ defmodule Verdemind.BotanyTest do
 
   describe "plants" do
     alias Verdemind.Botany.Plant
+    alias Verdemind.Botany.GeneratePlant
 
     import Verdemind.BotanyFixtures
 
@@ -151,6 +152,11 @@ defmodule Verdemind.BotanyTest do
     test "change_plant/1 returns a plant changeset" do
       plant = plant_fixture()
       assert %Ecto.Changeset{} = Botany.change_plant(plant)
+    end
+
+    test "change_generate_plant/1 returns a generate_plant changeset" do
+      generate_plant = %GeneratePlant{}
+      assert %Ecto.Changeset{} = Botany.change_gererate_plant(generate_plant)
     end
   end
 end

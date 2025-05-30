@@ -7,6 +7,7 @@ defmodule Verdemind.Botany do
   alias Verdemind.Repo
 
   alias Verdemind.Botany.Plant
+  alias Verdemind.Botany.GeneratePlant
 
   @doc """
   Returns the list of plants.
@@ -100,5 +101,9 @@ defmodule Verdemind.Botany do
   """
   def change_plant(%Plant{} = plant, attrs \\ %{}) do
     Plant.changeset(plant, attrs)
+  end
+
+  def change_gererate_plant(%GeneratePlant{} = generate_plant, attrs \\ %{}) do
+    GeneratePlant.changeset(generate_plant, attrs)
   end
 end
