@@ -1,7 +1,13 @@
 defmodule VerdemindWeb.GeneratePlantLiveTest do
-  use VerdemindWeb.ConnCase
+  use VerdemindWeb.ConnCase, async: true
   import Phoenix.LiveViewTest
   alias VerdemindWeb.GeneratePlantLive
+  alias Verdemind.Botany.Plant
+
+  import Mox
+
+  # Mox: make sure mocks are verified when the test exits
+  setup :verify_on_exit!
 
   describe "LiveView GeneratePlantLive" do
     test "connected mount", %{conn: conn} do
@@ -21,7 +27,18 @@ defmodule VerdemindWeb.GeneratePlantLiveTest do
       assert html =~ "name=\"generate_plant[name]\""
     end
 
-    test "submit plant name and show async loading message", %{conn: conn} do
+    test "submit plant name, show async loading message and result", %{conn: conn} do
+      # Mox
+      Verdemind.MockInstructorQuery
+      |> expect(
+        :instruct,
+        fn %{messages: messages}, _opts ->
+          [%{content: content}] = messages
+          :timer.sleep(200)
+          {:ok, %Plant{} |> struct!(name: content)}
+        end
+      )
+
       {:ok, view, _html} = live(conn, ~p"/generate-plant")
 
       result =
@@ -31,7 +48,7 @@ defmodule VerdemindWeb.GeneratePlantLiveTest do
 
       assert result =~ "asking ChatGPT..."
 
-      async_result = view |> render_async(8000)
+      async_result = view |> render_async(9000)
       assert async_result =~ ">Name</dt>"
       assert async_result =~ ">Rosemary</dd>"
     end

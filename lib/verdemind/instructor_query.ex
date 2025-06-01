@@ -1,7 +1,13 @@
 defmodule Verdemind.InstructorQuery do
   @moduledoc """
-  Gets structural output from OpenAI using the Ecto Scheme.
+  Gets structural output from OpenAI using the Ecto Schema.
+  Implements a behavior to allow mocking with Mox during testing.
   """
+  @callback instruct(InstructorLite.Adapter.params(), InstructorLite.opts()) ::
+              {:ok, Ecto.Schema.t()}
+              | {:error, Ecto.Changeset.t()}
+              | {:error, any()}
+              | {:error, atom(), any()}
 
   @doc """
   Gets a structural response for `content` to fit in the Ecto schema, given with `response_model`.
@@ -26,12 +32,29 @@ defmodule Verdemind.InstructorQuery do
 
 
   """
-  @spec ask(any(), any()) ::
-          {:error, any()} | {:ok, %{optional(atom()) => any()}} | {:error, atom(), any()}
+  @spec ask(String.t(), module()) ::
+          {:ok, Ecto.Schema.t()}
+          | {:error, Ecto.Changeset.t()}
+          | {:error, any()}
+          | {:error, atom(), any()}
   def ask(content, response_model) do
-    InstructorLite.instruct(%{messages: [%{role: "user", content: content}]},
+    instruct(
+      %{messages: [%{role: "user", content: content}]},
       response_model: response_model,
+      adapter: InstructorLite.Adapters.OpenAI,
       adapter_context: [api_key: System.fetch_env!("OPENAI_KEY")]
     )
   end
+
+  @spec instruct(InstructorLite.Adapter.params(), InstructorLite.opts()) ::
+          {:ok, Ecto.Schema.t()}
+          | {:error, Ecto.Changeset.t()}
+          | {:error, any()}
+          | {:error, atom(), any()}
+  def instruct(params, opts) do
+    impl().instruct(params, opts)
+  end
+
+  # :instructor_mock only set for testing, cf. test_helpers.exs
+  defp impl, do: Application.get_env(:verdemind, :instructor_mock, InstructorLite)
 end
