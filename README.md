@@ -1,6 +1,8 @@
 # Verdemind
 
-An example Elixir project that generates plant info using **OpenAI** and **InstructorLite**, delivering real-time interactive insights with **Phoenix.LiveView** and persisting data in a **PostgreSQL** DB with **Ecto**.
+Example Elixir project generating plant info with **OpenAI** and **InstructorLite**,
+featuring real-time UI via **Phoenix LiveView**, data persistence using **Ecto** with **PostgreSQL**,
+and **Mox**-based testing for the **InstructorLite** API.
 
 
 ## Getting Started
@@ -69,11 +71,10 @@ To start the `Verdemind` Phoenix app:
     }}
    ```
 
+  Or access the web app:
 
-## Accessing the App
-
-Once the server is running, open your browser and visit:
-[http://localhost:4000](http://localhost:4000)
+  Once the server is running, open your browser and visit:
+  [http://localhost:4000/generate-plant](http://localhost:4000/generate-plant)
 
 
 ## Database Setup
