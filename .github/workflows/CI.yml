@@ -23,6 +23,14 @@ jobs:
     env:
       MIX_ENV: test
 
+    services:
+      postgres:
+        image: postgres
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_PASSWORD: postgres
+
     runs-on: ubuntu-latest
 
     steps:
