@@ -42,7 +42,7 @@ defmodule Verdemind.InstructorQuery do
       %{messages: [%{role: "user", content: content}]},
       response_model: response_model,
       adapter: InstructorLite.Adapters.OpenAI,
-      adapter_context: [api_key: System.fetch_env!("OPENAI_KEY")]
+      adapter_context: [api_key: openai_key()]
     )
   end
 
@@ -57,4 +57,11 @@ defmodule Verdemind.InstructorQuery do
 
   # :instructor_mock only set for testing, cf. test_helpers.exs
   defp impl, do: Application.get_env(:verdemind, :instructor_mock, InstructorLite)
+
+  defp openai_key do
+    case System.fetch_env("OPENAI_KEY") do
+      {:ok, openai_key} -> openai_key
+      _ -> "TEST_WITHOUT_OPENAI_KEY"
+    end
+  end
 end
