@@ -4,6 +4,8 @@ Example Elixir project generating plant info with **OpenAI** and **InstructorLit
 featuring real-time UI via **Phoenix LiveView**, data persistence using **Ecto** with **PostgreSQL**,
 and **Mox**-based testing for the **InstructorLite** API.
 
+![Verdemind: Generate a plant, watch LiveView fetch responses from OpenAI](/priv/static/images/verdemind-generate-plant-from-openai.gif)
+
 
 ## Getting Started
 
@@ -82,7 +84,7 @@ To start the `Verdemind` Phoenix app:
 ### PostgreSQL Setup
 
 Install PostgreSQL if you haven't already:
-👉 [https://www.postgresql.org/download/](https://www.postgresql.org/download/)
+[https://www.postgresql.org/download/](https://www.postgresql.org/download/)
 
 After installation, make sure PostgreSQL is running and create a default superuser:
 
