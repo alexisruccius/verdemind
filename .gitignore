@@ -37,3 +37,7 @@ npm-debug.log
 
 # organising dir
 /organising/
+
+# IDE
+.vscode/
+
