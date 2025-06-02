@@ -1,5 +1,7 @@
 # Verdemind
 
+[![Build Status](https://github.com/alexisruccius/verdemind/workflows/CI/badge.svg)](https://github.com/alexisruccius/verdemind/actions/workflows/CI.yml)
+
 Example Elixir project generating plant info with **OpenAI** and **InstructorLite**,
 featuring real-time UI via **Phoenix LiveView**, data persistence using **Ecto** with **PostgreSQL**,
 and **Mox**-based testing for the **InstructorLite** API.
