@@ -36,6 +36,7 @@ defmodule Verdemind.MixProject do
       # for :instructor_lite
       {:req, "~> 0.5 or ~> 1.0"},
       {:mox, "~> 1.2", only: :test},
+      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
       {:phoenix, "~> 1.7.19"},
       {:phoenix_ecto, "~> 4.5"},
       {:ecto_sql, "~> 3.10"},
