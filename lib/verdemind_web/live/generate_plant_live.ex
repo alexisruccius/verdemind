@@ -28,23 +28,37 @@ defmodule VerdemindWeb.GeneratePlantLive do
      )}
   end
 
-  def handle_event("generate-plant", params, socket) do
-    %{"generate_plant" => %{"name" => name}} = params
-
-    {:noreply,
-     socket
-     |> assign_async(:plant, fn -> {:ok, %{plant: plant_from_instructor(name)}} end, reset: true)}
-  end
-
   def handle_event("validate", params, socket) do
     %{"generate_plant" => generate_plant_params} = params
 
-    form =
-      %GeneratePlant{}
-      |> Botany.change_gererate_plant(generate_plant_params)
-      |> to_form(action: :validate)
+    form = validate_form(generate_plant_params)
 
     {:noreply, socket |> assign(form: form)}
+  end
+
+  def handle_event("generate-plant", params, socket) do
+    %{"generate_plant" => generate_plant_params} = params
+    form = validate_form(generate_plant_params)
+
+    case form.source.valid? do
+      true ->
+        %{"name" => name} = generate_plant_params
+
+        {:noreply,
+         socket
+         |> assign_async(:plant, fn -> {:ok, %{plant: plant_from_instructor(name)}} end,
+           reset: true
+         )}
+
+      false ->
+        {:noreply, socket |> assign(form: form)}
+    end
+  end
+
+  defp validate_form(params) do
+    %GeneratePlant{}
+    |> Botany.change_gererate_plant(params)
+    |> to_form(action: :validate)
   end
 
   defp plant_from_instructor(name) do
