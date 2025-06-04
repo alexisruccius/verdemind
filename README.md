@@ -1,6 +1,10 @@
 # Verdemind
 
 [![Build Status](https://github.com/alexisruccius/verdemind/workflows/CI/badge.svg)](https://github.com/alexisruccius/verdemind/actions/workflows/CI.yml)
+[![Version](https://img.shields.io/github/v/tag/alexisruccius/verdemind.svg)](https://github.com/alexisruccius/verdemind/tags)
+[![Last Updated](https://img.shields.io/github/last-commit/alexisruccius/verdemind.svg)](https://github.com/alexisruccius/verdemind/commits/master)
+[![GitHub stars](https://img.shields.io/github/stars/alexisruccius/verdemind.svg)](https://github.com/alexisruccius/verdemind/stargazers)
+
 
 Example Elixir project generating plant info with **OpenAI** and **InstructorLite**,
 featuring real-time UI via **Phoenix LiveView**, data persistence using **Ecto** with **PostgreSQL**,
