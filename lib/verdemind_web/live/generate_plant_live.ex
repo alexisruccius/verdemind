@@ -2,9 +2,7 @@ defmodule VerdemindWeb.GeneratePlantLive do
   use VerdemindWeb, :live_view
 
   alias Phoenix.LiveView.AsyncResult
-  alias Verdemind.InstructorQuery
   alias Verdemind.Botany
-  alias Verdemind.Botany.Plant
   alias Verdemind.Botany.GeneratePlant
 
   import VerdemindWeb.MyComponents
@@ -46,7 +44,9 @@ defmodule VerdemindWeb.GeneratePlantLive do
 
         {:noreply,
          socket
-         |> assign_async(:plant, fn -> {:ok, %{plant: plant_from_instructor(name)}} end,
+         |> assign_async(
+           :plant,
+           fn -> {:ok, %{plant: Botany.plant_from_instructor(name)}} end,
            reset: true
          )}
 
@@ -59,10 +59,5 @@ defmodule VerdemindWeb.GeneratePlantLive do
     %GeneratePlant{}
     |> Botany.change_gererate_plant(params)
     |> to_form(action: :validate)
-  end
-
-  defp plant_from_instructor(name) do
-    {:ok, plant} = InstructorQuery.ask(name, Plant)
-    plant
   end
 end

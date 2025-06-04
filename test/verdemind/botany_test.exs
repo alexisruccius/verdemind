@@ -3,9 +3,10 @@ defmodule Verdemind.BotanyTest do
 
   alias Verdemind.Botany
 
+  import Mox
+
   describe "plants" do
     alias Verdemind.Botany.Plant
-    alias Verdemind.Botany.GeneratePlant
 
     import Verdemind.BotanyFixtures
 
@@ -34,6 +35,31 @@ defmodule Verdemind.BotanyTest do
     test "list_plants/0 returns all plants" do
       plant = plant_fixture()
       assert Botany.list_plants() == [plant]
+    end
+
+    test "generate_plant_from_instructor/1 returns a plant" do
+      # Mox
+      Verdemind.MockInstructorQuery
+      |> expect(
+        :instruct,
+        fn %{messages: messages}, _opts ->
+          [%{content: content}] = messages
+          {:ok, %Plant{} |> struct!(name: content)}
+        end
+      )
+
+      name = "some name"
+      assert %Plant{name: generated_name} = Botany.plant_from_instructor(name)
+      assert generated_name == name
+    end
+
+    test "plant_from_instructor/1 with error from InstructorQuery" do
+      # Mox
+      Verdemind.MockInstructorQuery
+      |> expect(:instruct, fn %{}, _opts -> {:error, "some reason"} end)
+
+      name = "some name"
+      assert %Plant{} = Botany.plant_from_instructor(name)
     end
 
     test "get_plant!/1 returns the plant with given id" do
@@ -153,6 +179,10 @@ defmodule Verdemind.BotanyTest do
       plant = plant_fixture()
       assert %Ecto.Changeset{} = Botany.change_plant(plant)
     end
+  end
+
+  describe "GeneratePlant" do
+    alias Verdemind.Botany.GeneratePlant
 
     test "change_generate_plant/1 returns a generate_plant changeset" do
       generate_plant = %GeneratePlant{}

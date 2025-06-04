@@ -6,6 +6,8 @@ defmodule Verdemind.Botany do
   import Ecto.Query, warn: false
   alias Verdemind.Repo
 
+  alias Verdemind.InstructorQuery
+
   alias Verdemind.Botany.Plant
   alias Verdemind.Botany.GeneratePlant
 
@@ -37,6 +39,17 @@ defmodule Verdemind.Botany do
 
   """
   def get_plant!(id), do: Repo.get!(Plant, id)
+
+  @doc """
+  Generates a plant by using `InstructorLite` which queries the OpenAI API.
+  """
+  @spec plant_from_instructor(String.t()) :: Ecto.Schema.t()
+  def plant_from_instructor(name) do
+    case InstructorQuery.ask(name, Plant) do
+      {:ok, plant} -> plant
+      _ -> %Plant{}
+    end
+  end
 
   @doc """
   Creates a plant.

@@ -53,6 +53,26 @@ defmodule VerdemindWeb.GeneratePlantLiveTest do
       assert async_result =~ ">Rosemary</dd>"
     end
 
+    test "submit plant name, show async loading message and result working with empty %Plant{} from InstructorQuery",
+         %{conn: conn} do
+      # Mox
+      Verdemind.MockInstructorQuery
+      |> expect(:instruct, fn _, _opts -> {:error, "some reason"} end)
+
+      {:ok, view, _html} = live(conn, ~p"/generate-plant")
+
+      result =
+        view
+        |> form("#generate-plant-form", generate_plant: %{"name" => "Rosemary"})
+        |> render_submit()
+
+      assert result =~ "asking ChatGPT..."
+
+      async_result = view |> render_async(9000)
+      assert async_result =~ ">Name</dt>"
+      assert async_result =~ ">Symbiosis with</dt>"
+    end
+
     test "generate plant form renders errors if empty plant name", %{conn: conn} do
       {:ok, view, _html} = live(conn, ~p"/generate-plant")
 
