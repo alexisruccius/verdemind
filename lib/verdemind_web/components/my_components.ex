@@ -6,14 +6,14 @@ defmodule VerdemindWeb.MyComponents do
   Renders a table displaying data for a single Plant, fetched asynchronously.
   Shows a loading message while fetching.
   """
-  attr :plant, AsyncResult, required: true
+  attr :plant_async, AsyncResult, required: true
 
   def plant_async(assigns) do
     ~H"""
     <dev>
-      <.loading item_async={@plant} message="asking ChatGPT..." />
-      <dev :if={@plant.ok?} class="p-2">
-        <.plant_table plant={@plant} />
+      <.loading item_async={@plant_async} message="asking ChatGPT..." />
+      <dev :if={@plant_async.ok?} class="p-2">
+        <.plant_table plant={@plant_async.result} />
       </dev>
     </dev>
     """
@@ -72,31 +72,31 @@ defmodule VerdemindWeb.MyComponents do
   @doc """
   Renders a table displaying the details of a single Plant.
   """
-  attr :plant, AsyncResult, required: true
+  attr :plant, :map, required: true
 
   def plant_table(assigns) do
     ~H"""
     <dev>
       <.list>
-        <:item title="Name">{@plant.result.name}</:item>
-        <:item title="Scientific name">{@plant.result.scientific_name}</:item>
-        <:item title="Location">{@plant.result.location}</:item>
-        <:item title="Native to">{@plant.result.native_to}</:item>
-        <:item title="Plant type">{@plant.result.plant_type}</:item>
-        <:item title="Environment">{@plant.result.environment}</:item>
-        <:item title="Light requirements">{@plant.result.light_requirements}</:item>
-        <:item title="Soil">{@plant.result.soil}</:item>
-        <:item title="Height">{@plant.result.height}</:item>
-        <:item title="Growth season">{@plant.result.growth_season}</:item>
-        <:item title="Harvesting">{@plant.result.harvesting}</:item>
-        <:item title="How to plant">{@plant.result.how_to_plant}</:item>
-        <:item title="How to water">{@plant.result.how_to_water}</:item>
-        <:item title="Watering frequency">{@plant.result.watering_frequency}</:item>
-        <:item title="Proliferation">{@plant.result.proliferation}</:item>
-        <:item title="Symbiosis with">{@plant.result.symbiosis_with}</:item>
-        <:item title="Uses">{@plant.result.uses}</:item>
-        <:item title="Common pests">{@plant.result.common_pests}</:item>
-        <:item title="Is this a plant">{@plant.result.is_this_a_plant}</:item>
+        <:item title="Name">{@plant.name}</:item>
+        <:item title="Scientific name">{@plant.scientific_name}</:item>
+        <:item title="Location">{@plant.location}</:item>
+        <:item title="Native to">{@plant.native_to}</:item>
+        <:item title="Plant type">{@plant.plant_type}</:item>
+        <:item title="Environment">{@plant.environment}</:item>
+        <:item title="Light requirements">{@plant.light_requirements}</:item>
+        <:item title="Soil">{@plant.soil}</:item>
+        <:item title="Height">{@plant.height}</:item>
+        <:item title="Growth season">{@plant.growth_season}</:item>
+        <:item title="Harvesting">{@plant.harvesting}</:item>
+        <:item title="How to plant">{@plant.how_to_plant}</:item>
+        <:item title="How to water">{@plant.how_to_water}</:item>
+        <:item title="Watering frequency">{@plant.watering_frequency}</:item>
+        <:item title="Proliferation">{@plant.proliferation}</:item>
+        <:item title="Symbiosis with">{@plant.symbiosis_with}</:item>
+        <:item title="Uses">{@plant.uses}</:item>
+        <:item title="Common pests">{@plant.common_pests}</:item>
+        <:item title="Is this a plant">{@plant.is_this_a_plant}</:item>
       </.list>
     </dev>
     """

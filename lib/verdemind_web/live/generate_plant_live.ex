@@ -14,14 +14,14 @@ defmodule VerdemindWeb.GeneratePlantLive do
       <.input type="text" field={@form[:name]} placeholder="Rosemary" autofocus />
       <.submit_button form={@form} message="generate plant" />
     </.form>
-    <.plant_async plant={@plant} />
+    <.plant_async plant_async={@plant_async} />
     """
   end
 
   def mount(_params, _session, socket) do
     {:ok,
      assign(socket,
-       plant: %AsyncResult{},
+       plant_async: %AsyncResult{},
        form: to_form(Botany.change_gererate_plant(%GeneratePlant{}))
      )}
   end
@@ -45,8 +45,8 @@ defmodule VerdemindWeb.GeneratePlantLive do
         {:noreply,
          socket
          |> assign_async(
-           :plant,
-           fn -> {:ok, %{plant: Botany.plant_from_instructor(name)}} end,
+           :plant_async,
+           fn -> {:ok, %{plant_async: Botany.plant_from_instructor(name)}} end,
            reset: true
          )}
 
