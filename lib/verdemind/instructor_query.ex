@@ -32,11 +32,7 @@ defmodule Verdemind.InstructorQuery do
 
 
   """
-  @spec ask(String.t(), module()) ::
-          {:ok, Ecto.Schema.t()}
-          | {:error, Ecto.Changeset.t()}
-          | {:error, any()}
-          | {:error, atom(), any()}
+  @spec ask(String.t(), module()) :: {:ok, Ecto.Schema.t()} | map()
   def ask(content, response_model) do
     instruct(
       %{messages: [%{role: "user", content: content}]},
@@ -44,6 +40,7 @@ defmodule Verdemind.InstructorQuery do
       adapter: InstructorLite.Adapters.OpenAI,
       adapter_context: [api_key: openai_key()]
     )
+    |> handle_result()
   end
 
   @spec instruct(InstructorLite.Adapter.params(), InstructorLite.opts()) ::
@@ -62,6 +59,26 @@ defmodule Verdemind.InstructorQuery do
     case System.fetch_env("OPENAI_KEY") do
       {:ok, openai_key} -> openai_key
       _ -> "TEST_WITHOUT_OPENAI_KEY"
+    end
+  end
+
+  defp handle_result(result) do
+    case result do
+      {:ok, plant} -> %{msg: :ok, plant: plant}
+      {:error, reason} -> reason |> handle_error()
+    end
+  end
+
+  defp handle_error(reason) do
+    cond do
+      reason |> is_struct() ->
+        cond do
+          reason |> is_map_key(:body) -> %{msg: :missing_openai_key, reason: reason}
+          reason |> is_map_key(:reason) -> %{msg: :connection_error, reason: reason}
+        end
+
+      reason |> is_binary() ->
+        %{msg: :other_error, reason: reason}
     end
   end
 end

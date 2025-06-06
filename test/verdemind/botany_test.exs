@@ -49,7 +49,7 @@ defmodule Verdemind.BotanyTest do
       )
 
       name = "some name"
-      assert %Plant{name: generated_name} = Botany.plant_from_instructor(name)
+      assert %{msg: :ok, plant: %Plant{name: generated_name}} = Botany.plant_from_instructor(name)
       assert generated_name == name
     end
 
@@ -59,7 +59,7 @@ defmodule Verdemind.BotanyTest do
       |> expect(:instruct, fn %{}, _opts -> {:error, "some reason"} end)
 
       name = "some name"
-      assert %Plant{} = Botany.plant_from_instructor(name)
+      assert %{msg: :other_error, reason: "some reason"} = Botany.plant_from_instructor(name)
     end
 
     test "get_plant!/1 returns the plant with given id" do

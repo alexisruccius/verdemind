@@ -45,10 +45,7 @@ defmodule Verdemind.Botany do
   """
   @spec plant_from_instructor(String.t()) :: Ecto.Schema.t()
   def plant_from_instructor(name) do
-    case InstructorQuery.ask(name, Plant) do
-      {:ok, plant} -> plant
-      _ -> %Plant{}
-    end
+    InstructorQuery.ask(name, Plant)
   end
 
   @doc """

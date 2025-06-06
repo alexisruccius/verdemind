@@ -13,9 +13,35 @@ defmodule VerdemindWeb.MyComponents do
     <dev>
       <.loading item_async={@plant_async} message="asking ChatGPT..." />
       <dev :if={@plant_async.ok?} class="p-2">
-        <.plant_table plant={@plant_async.result} />
+        <dev :if={@plant_async.result.msg == :ok}>
+          <.plant_table plant={@plant_async.result.plant} />
+        </dev>
+        <dev :if={@plant_async.result.msg == :missing_openai_key}><.missing_openai_key /></dev>
+        <dev :if={@plant_async.result.msg == :connection_error}>
+          <.connection_error reason={@plant_async.result.reason} />
+        </dev>
+        <dev :if={@plant_async.result.msg == :other_error}>{@plant_async.result.reason}</dev>
       </dev>
     </dev>
+    """
+  end
+
+  defp missing_openai_key(assigns) do
+    ~H"""
+    <h3>**Missing OPENAI_KEY**</h3>
+    <p>The `OPENAI_KEY` environment variable is not set.
+      Please set it before starting the Phoenix server:</p>
+    <p>export OPENAI_KEY="your_openai_key_here"</p>
+    <p>mix phx.server</p>
+    """
+  end
+
+  defp connection_error(assigns) do
+    ~H"""
+    <h3>**Connection Error**</h3>
+    <p>Unable to connect to the OpenAI server or the internet.
+      Please check your connection and try again.</p>
+    <p class="text-xs">{inspect(@reason)}</p>
     """
   end
 
