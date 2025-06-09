@@ -43,7 +43,7 @@ defmodule Verdemind.BotanyTest do
       |> expect(
         :instruct,
         fn %{messages: messages}, _opts ->
-          [%{content: content}] = messages
+          [%{content: content}, _] = messages
           {:ok, %Plant{} |> struct!(name: content)}
         end
       )

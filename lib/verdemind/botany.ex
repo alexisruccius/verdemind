@@ -11,6 +11,7 @@ defmodule Verdemind.Botany do
   alias Verdemind.Botany.Plant
   alias Verdemind.Botany.GeneratePlant
 
+
   @doc """
   Returns the list of plants.
 
@@ -45,7 +46,7 @@ defmodule Verdemind.Botany do
   """
   @spec plant_from_instructor(String.t()) :: Ecto.Schema.t()
   def plant_from_instructor(name) do
-    InstructorQuery.ask(name, Plant)
+    InstructorQuery.ask(name, Plant, Plant.openai_plant_system_prompt())
   end
 
   @doc """

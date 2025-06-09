@@ -85,7 +85,7 @@ defmodule VerdemindWeb.GeneratePlantLiveTest do
       |> expect(
         :instruct,
         fn %{messages: messages}, _opts ->
-          [%{content: content}] = messages
+          [%{content: content}, _] = messages
           :timer.sleep(200)
           {:ok, %Plant{} |> struct!(name: content)}
         end
@@ -124,7 +124,6 @@ defmodule VerdemindWeb.GeneratePlantLiveTest do
 
       assert async_result =~ "<h3>**Connection Error**</h3>"
     end
-
 
     test "if error :missing_openai_key, submit plant name shows async loading message and error message",
          %{conn: conn} do

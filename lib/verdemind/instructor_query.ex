@@ -9,6 +9,16 @@ defmodule Verdemind.InstructorQuery do
               | {:error, any()}
               | {:error, atom(), any()}
 
+  @openai_default_system_prompt """
+  You are a helpful and knowledgeable assistant.
+  Your job is to provide clear, concise, and accurate information.
+
+  The API receives a structured schema and you must format your responses to accurately follow this schema.
+  Ensure that each field is filled with correct and useful data.
+  If a field cannot be confidently completed,
+  indicate that the information is unavailable. Do not guess.
+  """
+
   @doc """
   Gets a structural response for `content` to fit in the Ecto schema, given with `response_model`.
 
@@ -32,10 +42,12 @@ defmodule Verdemind.InstructorQuery do
 
 
   """
-  @spec ask(String.t(), module()) :: {:ok, Ecto.Schema.t()} | map()
-  def ask(content, response_model) do
+  @spec ask(String.t(), module(), String.t()) :: {:ok, Ecto.Schema.t()} | map()
+  def ask(content, response_model, system_prompt \\ @openai_default_system_prompt) do
     instruct(
-      %{messages: [%{role: "user", content: content}]},
+      %{
+        messages: [%{role: "user", content: content}, %{role: "system", content: system_prompt}]
+      },
       response_model: response_model,
       adapter: InstructorLite.Adapters.OpenAI,
       adapter_context: [api_key: openai_key()]
