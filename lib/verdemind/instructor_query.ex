@@ -17,6 +17,9 @@ defmodule Verdemind.InstructorQuery do
   Ensure that each field is filled with correct and useful data.
   If a field cannot be confidently completed,
   indicate that the information is unavailable. Do not guess.
+
+  If the structured schema includes inserted_at or updated_at fields,
+  insert the current UTC datetime in ISO 8601 format (e.g. 2025-06-09T14:30:00Z).
   """
 
   @doc """

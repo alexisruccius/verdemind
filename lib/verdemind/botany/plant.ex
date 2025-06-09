@@ -29,6 +29,9 @@ defmodule Verdemind.Botany.Plant do
   indicating how likely it is that the input refers to a plant.
   Base this on your confidence and available data,
   and explain your reasoning briefly if appropriate.
+
+  If the structured schema includes inserted_at or updated_at fields,
+  insert the current UTC datetime in ISO 8601 format (e.g. 2025-06-09T14:30:00Z).
   """
 
   @notes """
