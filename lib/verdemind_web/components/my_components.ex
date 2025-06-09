@@ -20,7 +20,7 @@ defmodule VerdemindWeb.MyComponents do
         <dev :if={@plant_async.result.msg == :connection_error}>
           <.connection_error reason={@plant_async.result.reason} />
         </dev>
-        <dev :if={@plant_async.result.msg == :other_error}>{@plant_async.result.reason}</dev>
+        <dev :if={@plant_async.result.msg == :other_error}>other_error: {inspect(@plant_async.result.reason)}</dev>
       </dev>
     </dev>
     """

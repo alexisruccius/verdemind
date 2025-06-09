@@ -75,9 +75,10 @@ defmodule Verdemind.InstructorQuery do
         cond do
           reason |> is_map_key(:body) -> %{msg: :missing_openai_key, reason: reason}
           reason |> is_map_key(:reason) -> %{msg: :connection_error, reason: reason}
+          reason -> %{msg: :other_error, reason: reason}
         end
 
-      reason |> is_binary() ->
+      reason ->
         %{msg: :other_error, reason: reason}
     end
   end
