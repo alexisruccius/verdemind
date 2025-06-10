@@ -11,7 +11,6 @@ defmodule Verdemind.Botany do
   alias Verdemind.Botany.Plant
   alias Verdemind.Botany.GeneratePlant
 
-
   @doc """
   Returns the list of plants.
 
