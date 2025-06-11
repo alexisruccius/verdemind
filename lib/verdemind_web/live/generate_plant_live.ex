@@ -22,7 +22,7 @@ defmodule VerdemindWeb.GeneratePlantLive do
     {:ok,
      assign(socket,
        plant_async: %AsyncResult{},
-       form: to_form(Botany.change_gererate_plant(%GeneratePlant{}))
+       form: %GeneratePlant{} |> Botany.change_gererate_plant() |> to_form()
      )}
   end
 
