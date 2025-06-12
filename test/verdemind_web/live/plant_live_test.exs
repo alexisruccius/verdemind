@@ -23,7 +23,7 @@ defmodule VerdemindWeb.PlantLiveTest do
     proliferation: "some proliferation",
     symbiosis_with: "some symbiosis_with",
     common_pests: "some common_pests",
-    is_this_a_plant: 42
+    is_this_a_plant: 96
   }
   @update_attrs %{
     name: "some updated name",
@@ -44,7 +44,7 @@ defmodule VerdemindWeb.PlantLiveTest do
     proliferation: "some updated proliferation",
     symbiosis_with: "some updated symbiosis_with",
     common_pests: "some updated common_pests",
-    is_this_a_plant: 43
+    is_this_a_plant: 96
   }
   @invalid_attrs %{
     name: nil,
@@ -95,13 +95,12 @@ defmodule VerdemindWeb.PlantLiveTest do
              |> form("#plant-form", plant: @invalid_attrs)
              |> render_change() =~ "can&#39;t be blank"
 
-      assert index_live
-             |> form("#plant-form", plant: @create_attrs)
-             |> render_submit()
+      assert {:ok, _, html} =
+               index_live
+               |> form("#plant-form", plant: @create_attrs)
+               |> render_submit()
+               |> follow_redirect(conn, ~p"/plants")
 
-      assert_patch(index_live, ~p"/plants")
-
-      html = render(index_live)
       assert html =~ "Plant created successfully"
       assert html =~ "some name"
     end
@@ -110,7 +109,7 @@ defmodule VerdemindWeb.PlantLiveTest do
       {:ok, index_live, _html} = live(conn, ~p"/plants")
 
       assert index_live |> element("#plants-#{plant.id} a", "Edit") |> render_click() =~
-               "Edit Plant"
+               ~s(<input type="text" name="plant[name]" id="plant_name")
 
       assert_patch(index_live, ~p"/plants/#{plant}/edit")
 
@@ -118,13 +117,12 @@ defmodule VerdemindWeb.PlantLiveTest do
              |> form("#plant-form", plant: @invalid_attrs)
              |> render_change() =~ "can&#39;t be blank"
 
-      assert index_live
-             |> form("#plant-form", plant: @update_attrs)
-             |> render_submit()
+      assert {:ok, _, html} =
+               index_live
+               |> form("#plant-form", plant: @update_attrs)
+               |> render_submit()
+               |> follow_redirect(conn, ~p"/plants")
 
-      assert_patch(index_live, ~p"/plants")
-
-      html = render(index_live)
       assert html =~ "Plant updated successfully"
       assert html =~ "some updated name"
     end
@@ -151,7 +149,7 @@ defmodule VerdemindWeb.PlantLiveTest do
       {:ok, show_live, _html} = live(conn, ~p"/plants/#{plant}")
 
       assert show_live |> element("a", "Edit") |> render_click() =~
-               "Edit Plant"
+               ~s(<input type="text" name="plant[name]" id="plant_name")
 
       assert_patch(show_live, ~p"/plants/#{plant}/show/edit")
 
@@ -159,13 +157,12 @@ defmodule VerdemindWeb.PlantLiveTest do
              |> form("#plant-form", plant: @invalid_attrs)
              |> render_change() =~ "can&#39;t be blank"
 
-      assert show_live
-             |> form("#plant-form", plant: @update_attrs)
-             |> render_submit()
+      assert {:ok, _, html} =
+               show_live
+               |> form("#plant-form", plant: @update_attrs)
+               |> render_submit()
+               |> follow_redirect(conn, ~p"/plants/#{plant}")
 
-      assert_patch(show_live, ~p"/plants/#{plant}")
-
-      html = render(show_live)
       assert html =~ "Plant updated successfully"
       assert html =~ "some updated name"
     end

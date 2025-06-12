@@ -18,7 +18,7 @@ defmodule Verdemind.BotanyFixtures do
         height: "some height",
         how_to_plant: "some how_to_plant",
         how_to_water: "some how_to_water",
-        is_this_a_plant: 42,
+        is_this_a_plant: 96,
         light_requirements: "some light_requirements",
         location: "some location",
         name: "some name",

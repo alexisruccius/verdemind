@@ -14,7 +14,15 @@ defmodule VerdemindWeb.GeneratePlantLive do
       <.input type="text" field={@form[:name]} placeholder="Rosemary" autofocus />
       <.submit_button form={@form} message="generate plant" />
     </.form>
-    <.plant_async plant_async={@plant_async} />
+    <.plant_async plant_async={@plant_async}>
+      <.live_component
+        module={VerdemindWeb.PlantLive.FormComponent}
+        id={:new_plant_from_generator}
+        action={:new}
+        plant={@plant_async.result.plant}
+        patch={~p"/plants"}
+      />
+    </.plant_async>
     """
   end
 

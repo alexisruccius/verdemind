@@ -3,15 +3,12 @@ defmodule VerdemindWeb.PlantLive.FormComponent do
 
   alias Verdemind.Botany
 
+  import VerdemindWeb.MyComponents
+
   @impl true
   def render(assigns) do
     ~H"""
     <div>
-      <.header>
-        {@title}
-        <:subtitle>Use this form to manage plant records in your database.</:subtitle>
-      </.header>
-
       <.simple_form
         for={@form}
         id="plant-form"
@@ -39,7 +36,7 @@ defmodule VerdemindWeb.PlantLive.FormComponent do
         <.input field={@form[:common_pests]} type="text" label="Common pests" />
         <.input field={@form[:is_this_a_plant]} type="number" label="Is this a plant" />
         <:actions>
-          <.button phx-disable-with="Saving...">Save Plant</.button>
+          <.submit_button form={@form} message="Save Plant" />
         </:actions>
       </.simple_form>
     </div>
@@ -74,7 +71,7 @@ defmodule VerdemindWeb.PlantLive.FormComponent do
         {:noreply,
          socket
          |> put_flash(:info, "Plant updated successfully")
-         |> push_patch(to: socket.assigns.patch)}
+         |> push_navigate(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, form: to_form(changeset))}
@@ -89,7 +86,7 @@ defmodule VerdemindWeb.PlantLive.FormComponent do
         {:noreply,
          socket
          |> put_flash(:info, "Plant created successfully")
-         |> push_patch(to: socket.assigns.patch)}
+         |> push_navigate(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, form: to_form(changeset))}

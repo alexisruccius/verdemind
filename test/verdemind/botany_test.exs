@@ -87,7 +87,7 @@ defmodule Verdemind.BotanyTest do
         proliferation: "some proliferation",
         symbiosis_with: "some symbiosis_with",
         common_pests: "some common_pests",
-        is_this_a_plant: 42
+        is_this_a_plant: 96
       }
 
       assert {:ok, %Plant{} = plant} = Botany.create_plant(valid_attrs)
@@ -109,7 +109,7 @@ defmodule Verdemind.BotanyTest do
       assert plant.proliferation == "some proliferation"
       assert plant.symbiosis_with == "some symbiosis_with"
       assert plant.common_pests == "some common_pests"
-      assert plant.is_this_a_plant == 42
+      assert plant.is_this_a_plant == 96
     end
 
     test "create_plant/1 with invalid data returns error changeset" do
@@ -138,7 +138,7 @@ defmodule Verdemind.BotanyTest do
         proliferation: "some updated proliferation",
         symbiosis_with: "some updated symbiosis_with",
         common_pests: "some updated common_pests",
-        is_this_a_plant: 43
+        is_this_a_plant: 96
       }
 
       assert {:ok, %Plant{} = plant} = Botany.update_plant(plant, update_attrs)
@@ -160,7 +160,7 @@ defmodule Verdemind.BotanyTest do
       assert plant.proliferation == "some updated proliferation"
       assert plant.symbiosis_with == "some updated symbiosis_with"
       assert plant.common_pests == "some updated common_pests"
-      assert plant.is_this_a_plant == 43
+      assert plant.is_this_a_plant == 96
     end
 
     test "update_plant/2 with invalid data returns error changeset" do

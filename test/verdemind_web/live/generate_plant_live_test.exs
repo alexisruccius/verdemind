@@ -101,8 +101,9 @@ defmodule VerdemindWeb.GeneratePlantLiveTest do
       assert result =~ "asking ChatGPT..."
 
       async_result = view |> render_async(9000)
-      assert async_result =~ ">Name</dt>"
-      assert async_result =~ ">Rosemary</dd>"
+
+      assert async_result =~
+               ~s(<input type="text" name="plant[name]" id="plant_name" value="Rosemary")
     end
 
     test "if :connection_error, submit plant name shows async loading message and error message",

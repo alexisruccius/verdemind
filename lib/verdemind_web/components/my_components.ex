@@ -7,6 +7,7 @@ defmodule VerdemindWeb.MyComponents do
   Shows a loading message while fetching.
   """
   attr :plant_async, AsyncResult, required: true
+  slot :inner_block, required: true
 
   def plant_async(assigns) do
     ~H"""
@@ -14,7 +15,7 @@ defmodule VerdemindWeb.MyComponents do
       <.loading item_async={@plant_async} message="asking ChatGPT..." />
       <dev :if={@plant_async.ok?} class="p-2">
         <dev :if={@plant_async.result.msg == :ok}>
-          <.plant_table plant={@plant_async.result.plant} />
+          {render_slot(@inner_block)}
         </dev>
         <dev :if={@plant_async.result.msg == :missing_openai_key}><.missing_openai_key /></dev>
         <dev :if={@plant_async.result.msg == :connection_error}>
@@ -81,6 +82,7 @@ defmodule VerdemindWeb.MyComponents do
     <dev>
       <button
         :if={@form.source.valid?}
+        phx-disable-with="..."
         class="bg-lime-600 hover:bg-lime-700 text-white font-bold py-2 px-4 my-4 rounded"
       >
         {@message}
