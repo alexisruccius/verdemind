@@ -51,7 +51,7 @@ defmodule VerdemindWeb.GeneratePlantLiveTest do
 
     test "title correct", %{conn: conn} do
       {:ok, _view, html} = live(conn, ~p"/generate-plant")
-      assert html =~ ">Generate Plant</h1>"
+      assert html =~ ">Plant Generator</h1>"
     end
 
     test "form input field for generate_plant name", %{conn: conn} do

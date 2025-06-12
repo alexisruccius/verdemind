@@ -9,7 +9,7 @@ defmodule VerdemindWeb.GeneratePlantLive do
 
   def render(assigns) do
     ~H"""
-    <h1 class="text-lg font-bold py-4">Generate Plant</h1>
+    <h1 class="text-lg font-bold py-4">Plant Generator</h1>
     <.form id="generate-plant-form" for={@form} phx-change="validate" phx-submit="generate-plant">
       <.input type="text" field={@form[:name]} placeholder="Rosemary" autofocus />
       <.submit_button form={@form} message="generate plant" />
