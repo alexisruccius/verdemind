@@ -125,6 +125,11 @@ defmodule Verdemind.Botany.Plant do
       :common_pests,
       :is_this_a_plant
     ])
+    |> validate_number(:is_this_a_plant,
+      greater_than: 95,
+      message:
+        "Hmm, this might not be a plant. Please generate a new plant or set the confidence above 95."
+    )
   end
 
   def openai_plant_system_prompt(), do: @openai_plant_system_prompt
