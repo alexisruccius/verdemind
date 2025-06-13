@@ -17,7 +17,7 @@ defmodule VerdemindWeb.GeneratePlantLive do
     <.plant_async plant_async={@plant_async}>
       <.live_component
         module={VerdemindWeb.PlantLive.FormComponent}
-        id={:new_plant_from_generator}
+        id="new_plant_from_generator"
         action={:new}
         plant={@plant_async.result.plant}
         patch={~p"/plants"}

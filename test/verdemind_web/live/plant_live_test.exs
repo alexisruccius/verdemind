@@ -97,12 +97,12 @@ defmodule VerdemindWeb.PlantLiveTest do
 
       assert {:ok, _, html} =
                index_live
-               |> form("#plant-form", plant: @create_attrs)
+               |> form("#plant-form", plant: @create_attrs |> Map.put(:name, "unique some name"))
                |> render_submit()
                |> follow_redirect(conn, ~p"/plants")
 
       assert html =~ "Plant created successfully"
-      assert html =~ "some name"
+      assert html =~ "unique some name"
     end
 
     test "updates plant in listing", %{conn: conn, plant: plant} do

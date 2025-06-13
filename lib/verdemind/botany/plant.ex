@@ -130,6 +130,7 @@ defmodule Verdemind.Botany.Plant do
       message:
         "Hmm, this might not be a plant. Please generate a new plant or set the confidence above 95."
     )
+    |> unique_constraint(:name, message: "A plant with this name already exists.")
   end
 
   def openai_plant_system_prompt(), do: @openai_plant_system_prompt
