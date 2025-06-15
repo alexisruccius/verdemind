@@ -8,7 +8,7 @@
 
 Example Elixir project generating plant info with **OpenAI** and **InstructorLite**,
 featuring real-time UI via **Phoenix LiveView**, data persistence using **Ecto** with **PostgreSQL**,
-and **Mox**-based testing for the **InstructorLite** API.
+and **Mox**-based testing.
 
 ![Verdemind: Generate a plant, watch LiveView fetch responses from OpenAI](/priv/static/images/verdemind-generate-plant-from-openai.gif)
 
@@ -51,6 +51,11 @@ To start the `Verdemind` Phoenix app:
 
 6. **Query plant data (example):**
 
+  Once the server is running, open your browser and visit:
+  [http://localhost:4000/generate-plant](http://localhost:4000/generate-plant)
+
+  Or:
+
    ```elixir
    iex> Verdemind.InstructorQuery.ask("Rosemary", Verdemind.Botany.Plant)
    {:ok,
@@ -78,11 +83,6 @@ To start the `Verdemind` Phoenix app:
       ...
     }}
    ```
-
-  Or access the web app:
-
-  Once the server is running, open your browser and visit:
-  [http://localhost:4000/generate-plant](http://localhost:4000/generate-plant)
 
 
 ## Database Setup
