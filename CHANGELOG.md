@@ -1,6 +1,19 @@
 # Changelog
 
 
+## v0.2.1 (2025-06-16)
+
+### Bug fixes
+
+- Integrate `notes()` system prompt from `Plant` into `InstructorQuery`
+
+### Enhancements
+
+- Improve test coverage
+- Refactor OpenAI system prompt handling in `Plant` module
+- Refactor `FormComponent` and `Router` for clarity
+
+
 ## v0.2.0 (2025-06-14)
 
 ### Features
