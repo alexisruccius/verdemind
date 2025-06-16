@@ -65,9 +65,7 @@ defmodule VerdemindWeb.PlantLive.FormComponent do
 
   defp save_plant(socket, :edit, plant_params) do
     case Botany.update_plant(socket.assigns.plant, plant_params) do
-      {:ok, plant} ->
-        notify_parent({:saved, plant})
-
+      {:ok, _plant} ->
         {:noreply,
          socket
          |> put_flash(:info, "Plant updated successfully")
@@ -80,9 +78,7 @@ defmodule VerdemindWeb.PlantLive.FormComponent do
 
   defp save_plant(socket, :new, plant_params) do
     case Botany.create_plant(plant_params) do
-      {:ok, plant} ->
-        notify_parent({:saved, plant})
-
+      {:ok, _plant} ->
         {:noreply,
          socket
          |> put_flash(:info, "Plant created successfully")
@@ -92,6 +88,4 @@ defmodule VerdemindWeb.PlantLive.FormComponent do
         {:noreply, assign(socket, form: to_form(changeset))}
     end
   end
-
-  defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
 end
