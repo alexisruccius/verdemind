@@ -49,7 +49,11 @@ defmodule Verdemind.InstructorQuery do
   def ask(content, response_model, system_prompt \\ @openai_default_system_prompt) do
     instruct(
       %{
-        messages: [%{role: "user", content: content}, %{role: "system", content: system_prompt}]
+        messages: [
+          %{role: "user", content: content},
+          %{role: "system", content: system_prompt}
+          |> InstructorLite.prepare_prompt(response_model: response_model)
+        ]
       },
       response_model: response_model,
       adapter: InstructorLite.Adapters.OpenAI,
@@ -73,28 +77,17 @@ defmodule Verdemind.InstructorQuery do
   defp openai_key do
     case System.fetch_env("OPENAI_KEY") do
       {:ok, openai_key} -> openai_key
-      _ -> "TEST_WITHOUT_OPENAI_KEY"
+      :error -> "TEST_WITHOUT_OPENAI_KEY"
     end
   end
 
-  defp handle_result(result) do
-    case result do
-      {:ok, plant} -> %{msg: :ok, plant: plant}
-      {:error, reason} -> reason |> handle_error()
-    end
-  end
+  defp handle_result({:ok, plant}), do: %{msg: :ok, plant: plant}
+  defp handle_result({:error, reason}), do: reason |> handle_error()
 
-  defp handle_error(reason) do
-    cond do
-      reason |> is_struct() ->
-        cond do
-          reason |> is_map_key(:body) -> %{msg: :missing_openai_key, reason: reason}
-          reason |> is_map_key(:reason) -> %{msg: :connection_error, reason: reason}
-          reason -> %{msg: :other_error, reason: reason}
-        end
+  defp handle_error(%Req.Response{body: body}), do: %{msg: :missing_openai_key, reason: body}
 
-      reason ->
-        %{msg: :other_error, reason: reason}
-    end
-  end
+  defp handle_error(%Req.TransportError{reason: :nxdomain}),
+    do: %{msg: :connection_error, reason: :nxdomain}
+
+  defp handle_error(reason), do: %{msg: :other_error, reason: reason}
 end

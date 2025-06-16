@@ -42,6 +42,7 @@ defmodule Verdemind.InstructorQueryTest do
   }
 
   @instructor_response_no_internet %Req.TransportError{reason: :nxdomain}
+  @instructor_response_other_error %Req.HTTPError{}
 
   describe "ask/2" do
     test "if successful resturns a map with the given plant ecto schema and the name filled out" do
@@ -63,7 +64,30 @@ defmodule Verdemind.InstructorQueryTest do
       assert name == "Rosemary"
     end
 
-    test "if openai key is missing returns a map with error msg and reason" do
+    test "fetches openai key from system environment" do
+      # Mox
+      Verdemind.MockInstructorQuery
+      |> expect(
+        :instruct,
+        fn %{messages: messages}, _opts ->
+          [%{content: content}, _] = messages
+          {:ok, %Plant{} |> struct!(name: content)}
+        end
+      )
+
+      content = "Rosemary"
+      response_model = Plant
+
+      System.put_env("OPENAI_KEY", "test_value")
+
+      %{msg: :ok, plant: plant} = InstructorQuery.ask(content, response_model)
+      %Plant{name: name} = plant
+      assert name == "Rosemary"
+
+      System.delete_env("OPENAI_KEY")
+    end
+
+    test "if openai key is missing, returns a map with error msg and %Req.Request{} body" do
       # Mox
       Verdemind.MockInstructorQuery
       |> expect(:instruct, fn _, _opts -> {:error, @instructor_response_no_openai_key} end)
@@ -72,10 +96,11 @@ defmodule Verdemind.InstructorQueryTest do
       response_model = Plant
 
       %{msg: :missing_openai_key, reason: reason} = InstructorQuery.ask(content, response_model)
-      @instructor_response_no_openai_key = reason
+      body = @instructor_response_no_openai_key.body
+      assert body == reason
     end
 
-    test "if connection error returns a map with error msg and reason" do
+    test "if connection error, returns a map with error msg and %Req.TransportError{} with error msg and reason" do
       # Mox
       Verdemind.MockInstructorQuery
       |> expect(:instruct, fn _, _opts -> {:error, @instructor_response_no_internet} end)
@@ -83,8 +108,19 @@ defmodule Verdemind.InstructorQueryTest do
       content = "Rosemary"
       response_model = Plant
 
-      %{msg: :connection_error, reason: reason} = InstructorQuery.ask(content, response_model)
-      @instructor_response_no_internet = reason
+      %{msg: :connection_error, reason: :nxdomain} = InstructorQuery.ask(content, response_model)
+    end
+
+    test "if other error, returns a map with error msg and reason" do
+      # Mox
+      Verdemind.MockInstructorQuery
+      |> expect(:instruct, fn _, _opts -> {:error, @instructor_response_other_error} end)
+
+      content = "Rosemary"
+      response_model = Plant
+
+      %{msg: :other_error, reason: reason} = InstructorQuery.ask(content, response_model)
+      @instructor_response_other_error = reason
     end
   end
 end
