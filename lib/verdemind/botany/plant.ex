@@ -15,14 +15,10 @@ defmodule Verdemind.Botany.Plant do
   If a field cannot be confidently completed,
   indicate that the information is unavailable. Do not guess.
 
-  If the plant name is unclear or ambiguous, ask the user to clarify.
-  In this case, put the clarification request in the name field of the structured response,
-  additionally, suggest up to 3 possible plant names the user might have meant, based on the input,
-  and populate other fields with N/A.
   Keep your tone friendly, beginner-friendly, and informative.
 
   If the user asks about the plant's height,
-  always answer using the metric system (centimeters or meters),
+  always answer using the metric system (centimeters),
   depending on the typical size of the plant.
 
   If the user asks whether the input is a plant, respond with a percentage (from 0 to 100)
@@ -34,28 +30,36 @@ defmodule Verdemind.Botany.Plant do
   insert the current UTC datetime in ISO 8601 format (e.g. 2025-06-09T14:30:00Z).
   """
 
-  @notes """
-  Field Descriptions:
-  - name: The common name of the plant.
-  - location: Where the plant is commonly grown or found.
-  - uses: Primary uses of the plant (e.g., medicinal, culinary, ornamental) with one or two examples.
-  - scientific_name: The scientific (Latin) name of the plant.
-  - native_to: Region or climate where the plant originates.
-  - plant_type: Type of plant (e.g., herb, shrub, vine).
-  - environment: Ideal growing conditions for the plant.
-  - light_requirements: Sunlight requirements (e.g., full sun, partial shade).
-  - soil: Preferred soil type (e.g., loamy, sandy, well-drained).
-  - height: Enter the typical mature height of the plant (in centimeters).
-  - growth_season: Seasons during which the plant grows or blooms.
-  - harvesting: When and how to harvest the plant.
-  - how_to_plant: Instructions for planting (e.g., seed depth, spacing).
-  - how_to_water: Watering guidelines to maintain healthy growth.
-  - watering_frequency: How often to water the plant.
-  - proliferation: Methods of propagation (e.g., seeds, cuttings).
-  - symbiosis_with: Companion plants that grow well with this one.
-  - common_pests: Pests or diseases that commonly affect the plant.
-  - is_it_a_plant: Returns a differentiated score from 0 to 100 indicating the likelihood that the subject is a real, physical botanical plant. A score of 100 means it is definitely a real, physical plant. A score of 0 means it does not exist as a physical entity (e.g., fictional, abstract, digital-only, or non-botanical).
-  """
+  @impl InstructorLite.Instruction
+  def notes() do
+    """
+    Field Descriptions:
+    - name: The common English name of the plant. If provided in another language, translate it into English. Enforce English.
+            If the plant name is unclear or ambiguous, ask the user to clarify.
+            In this case, put the clarification request in the name field of the structured response,
+            additionally, suggest up to 3 possible plant names the user might have meant, based on the input,
+            and populate other fields with N/A.
+    - location: Where the plant is commonly grown or found.
+    - uses: Primary uses of the plant (e.g., medicinal, culinary, ornamental) with one or two examples.
+    - scientific_name: The scientific (Latin) name of the plant.
+    - native_to: Region or climate where the plant originates.
+    - plant_type: Type of plant (e.g., herb, shrub, vine).
+    - environment: Ideal growing conditions for the plant.
+    - light_requirements: Sunlight requirements (e.g., full sun, partial shade).
+    - soil: Preferred soil type (e.g., loamy, sandy, well-drained).
+    - height: Enter the typical mature height of the plant (in centimeters).
+    - growth_season: Seasons during which the plant grows or blooms.
+    - harvesting: When and how to harvest the plant.
+    - how_to_plant: Instructions for planting (e.g., seed depth, spacing).
+    - how_to_water: Watering guidelines to maintain healthy growth.
+    - watering_frequency: How often to water the plant.
+    - proliferation: Methods of propagation (e.g., seeds, cuttings).
+    - symbiosis_with: Companion plants that grow well with this one.
+    - common_pests: Pests or diseases that commonly affect the plant.
+    - is_it_a_plant: Returns a differentiated score from 0 to 100 indicating the likelihood that the subject is a real, physical botanical plant. A score of 100 means it is definitely a real, physical plant. A score of 0 means it does not exist as a physical entity (e.g., fictional, abstract, digital-only, or non-botanical).
+    """
+  end
+
   schema "plants" do
     field :name, :string
     field :location, :string
