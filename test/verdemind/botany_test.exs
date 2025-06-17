@@ -67,6 +67,10 @@ defmodule Verdemind.BotanyTest do
       assert Botany.get_plant!(plant.id) == plant
     end
 
+    test "create_plant/0 with default empty map returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Botany.create_plant()
+    end
+
     test "create_plant/1 with valid data creates a plant" do
       valid_attrs = %{
         name: "some name",

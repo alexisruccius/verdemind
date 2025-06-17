@@ -11,4 +11,8 @@ defmodule VerdemindWeb.ErrorHTMLTest do
   test "renders 500.html" do
     assert render_to_string(VerdemindWeb.ErrorHTML, "500", "html", []) == "Internal Server Error"
   end
+
+  test "has __phoenix_verify_routes__" do
+    assert :ok == VerdemindWeb.ErrorHTML.__phoenix_verify_routes__([])
+  end
 end

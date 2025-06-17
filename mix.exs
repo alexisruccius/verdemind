@@ -12,7 +12,11 @@ defmodule Verdemind.MixProject do
       deps: deps(),
       test_coverage: [
         summary: [
-          threshold: 89
+          threshold: 90
+        ],
+        ignore_modules: [
+          Verdemind.Repo,
+          Verdemind.Application
         ]
       ]
     ]
