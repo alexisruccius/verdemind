@@ -24,7 +24,7 @@ defmodule Verdemind.MixProject do
   def application do
     [
       mod: {Verdemind.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :os_mon]
     ]
   end
 
