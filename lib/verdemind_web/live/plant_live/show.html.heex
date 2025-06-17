@@ -35,6 +35,7 @@
 <.modal
   :if={@live_action == :edit}
   id="plant-modal"
+  action={@live_action}
   show
   on_cancel={JS.patch(~p"/plants/#{@plant}")}
 >

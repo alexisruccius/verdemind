@@ -4,9 +4,11 @@ defmodule VerdemindWeb.PlantLive.Index do
   alias Verdemind.Botany
   alias Verdemind.Botany.Plant
 
+  import VerdemindWeb.MyComponents
+
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, stream(socket, :plants, Botany.list_plants())}
+    {:ok, stream(socket, :plants, Botany.list_plants() |> Enum.reverse())}
   end
 
   @impl true
@@ -30,11 +32,6 @@ defmodule VerdemindWeb.PlantLive.Index do
     socket
     |> assign(:page_title, "Listing Plants")
     |> assign(:plant, nil)
-  end
-
-  @impl true
-  def handle_info({VerdemindWeb.PlantLive.FormComponent, {:saved, plant}}, socket) do
-    {:noreply, stream_insert(socket, :plants, plant)}
   end
 
   @impl true

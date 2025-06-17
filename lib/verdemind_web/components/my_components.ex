@@ -2,6 +2,8 @@ defmodule VerdemindWeb.MyComponents do
   use Phoenix.Component
   alias Phoenix.LiveView.AsyncResult
 
+  import VerdemindWeb.CoreComponents
+
   @doc """
   Renders a table displaying data for a single Plant, fetched asynchronously.
   Shows a loading message while fetching.
@@ -103,51 +105,104 @@ defmodule VerdemindWeb.MyComponents do
   Renders a table displaying the details of a single Plant.
   """
   attr :plant, :map, required: true
+  attr :class, :string, default: nil
 
-  def plant_table(assigns) do
+  def plant_card(assigns) do
     ~H"""
-    <dev>
-      <.list>
-        <:item title="Name">{@plant.name}</:item>
-        <:item title="Scientific name">{@plant.scientific_name}</:item>
-        <:item title="Location">{@plant.location}</:item>
-        <:item title="Native to">{@plant.native_to}</:item>
-        <:item title="Plant type">{@plant.plant_type}</:item>
-        <:item title="Environment">{@plant.environment}</:item>
-        <:item title="Light requirements">{@plant.light_requirements}</:item>
-        <:item title="Soil">{@plant.soil}</:item>
-        <:item title="Height">{@plant.height}</:item>
-        <:item title="Growth season">{@plant.growth_season}</:item>
-        <:item title="Harvesting">{@plant.harvesting}</:item>
-        <:item title="How to plant">{@plant.how_to_plant}</:item>
-        <:item title="How to water">{@plant.how_to_water}</:item>
-        <:item title="Watering frequency">{@plant.watering_frequency}</:item>
-        <:item title="Proliferation">{@plant.proliferation}</:item>
-        <:item title="Symbiosis with">{@plant.symbiosis_with}</:item>
-        <:item title="Uses">{@plant.uses}</:item>
-        <:item title="Common pests">{@plant.common_pests}</:item>
-        <:item title="Is this a plant">{@plant.is_this_a_plant}</:item>
-      </.list>
-    </dev>
-    """
-  end
-
-  @doc """
-  Renders a data list.
-  """
-  slot :item, required: true do
-    attr :title, :string, required: true
-  end
-
-  def list(assigns) do
-    ~H"""
-    <div class="mt-14">
-      <dl class="-my-4 divide-y divide-stone-400">
-        <div :for={item <- @item} class="flex gap-4 py-4 text-sm leading-6 sm:gap-8">
-          <dt class="w-1/4 flex-none text-stone-300">{item.title}</dt>
-          <dd class="text-white">{render_slot(item)}</dd>
+    <div class={[
+      "m-4 bg-stone-800",
+      "border border-t-white border-b-stone-600 border-r-stone-400 border-l-stone-400",
+      "rounded-2xl p-6 max-w-4xl mx-auto shadow-lg font-hand text-white text-[15px] leading-relaxed",
+      @class
+    ]}>
+      <div class="flex flex-col md:flex-row gap-6">
+        <div class="md:w-1/2 space-y-2">
+          <h2 class="text-2xl font-bold uppercase tracking-widest text-lime-400 flex items-center gap-2">
+            <.icon name="hero-cog-6-tooth" class="w-6 h-6 text-lime-400" />
+            {@plant.name}
+          </h2>
+          <p class="italic">{@plant.scientific_name}</p>
+          <p>
+            <.icon name="hero-globe-alt" class="w-4 h-4 text-lime-300" />
+            <span class="font-bold text-lime-300">Environment:</span> {@plant.environment}
+          </p>
+          <p>
+            <.icon name="hero-tag" class="w-4 h-4 text-yellow-200" />
+            <span class="font-bold text-yellow-200">
+              Type:
+            </span>
+            {@plant.plant_type}
+          </p>
+          <p>
+            <.icon name="hero-map" class="w-4 h-4 text-amber-300" />
+            <span class="font-bold text-amber-300">
+              Native To:
+            </span>
+            {@plant.native_to}
+          </p>
+          <p>
+            <.icon name="hero-map" class="w-4 h-4 text-amber-300" />
+            <span class="font-bold text-amber-300">
+              Location:
+            </span>
+            {@plant.location}
+          </p>
+          <p>
+            <.icon name="hero-sun" class="w-4 h-4 text-amber-500" />
+            <span class="font-bold text-amber-500">Light:</span> {@plant.light_requirements}
+          </p>
+          <p>
+            <.icon name="hero-beaker text-orange-500" class="w-4 h-4" />
+            <span class="font-bold text-orange-500">Soil:</span> {@plant.soil}
+          </p>
+          <p>
+            <.icon name="hero-arrows-up-down text-rose-500" class="w-4 h-4" />
+            <span class="font-bold text-rose-500">Height:</span> {@plant.height}
+          </p>
         </div>
-      </dl>
+        <div class="md:w-1/2 space-y-2">
+          <p>
+            <.icon name="hero-calendar" class="w-4 h-4 text-rose-400" />
+            <span class="font-bold text-rose-400">Growth Season:</span> {@plant.growth_season}
+          </p>
+          <p>
+            <.icon name="hero-scissors" class="w-4 h-4 text-pink-400" />
+            <span class="font-bold text-pink-400">Harvesting:</span>
+            {@plant.harvesting}
+          </p>
+          <p>
+            <.icon name="hero-briefcase" class="w-4 h-4 text-fuchsia-400" />
+            <span class="font-bold text-fuchsia-400">Uses:</span>
+            {@plant.uses}
+          </p>
+          <p>
+            <.icon name="hero-cloud" class="w-4 h-4 text-sky-400" />
+            <span class="font-bold text-sky-400">Water:</span>
+            {@plant.how_to_water} ({@plant.watering_frequency})
+          </p>
+          <p>
+            <.icon name="hero-arrow-path" class="w-4 h-4 text-teal-400" />
+            <span class="font-bold text-teal-400">
+              Proliferation:
+            </span>
+            {@plant.proliferation}
+          </p>
+          <p>
+            <.icon name="hero-bug-ant" class="w-4 h-4 text-green-400" />
+            <span class="font-bold text-green-400">
+              Common Pests:
+            </span>
+            {@plant.common_pests}
+          </p>
+          <p>
+            <.icon name="hero-link" class="w-4 h-4 text-lime-400" />
+            <span class="font-bold text-lime-400">
+              Symbiosis:
+            </span>
+            {@plant.symbiosis_with}
+          </p>
+        </div>
+      </div>
     </div>
     """
   end
