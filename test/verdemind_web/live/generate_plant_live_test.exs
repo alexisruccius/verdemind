@@ -130,6 +130,19 @@ defmodule VerdemindWeb.GeneratePlantLiveTest do
       assert result =~ "should be at least 3 character(s)"
     end
 
+    test "generate plant form renders errors if submit too long plant name", %{conn: conn} do
+      {:ok, view, _html} = live(conn, ~p"/generate-plant")
+
+      too_long_string = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do"
+
+      result =
+        view
+        |> form("#generate-plant-form", generate_plant: %{"name" => too_long_string})
+        |> render_submit()
+
+      assert result =~ "should be at most 60 character(s)"
+    end
+
     test "submit plant name, show async loading message and result", %{conn: conn} do
       # Mox
       Verdemind.MockInstructorQuery
