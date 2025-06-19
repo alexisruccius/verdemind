@@ -8,7 +8,8 @@
 
 Example Elixir project generating plant info with **OpenAI** and **InstructorLite**,
 featuring real-time UI via **Phoenix LiveView**, data persistence using **Ecto** with **PostgreSQL**,
-and **Mox**-based testing.
+and using **Test-Driven Development (TDD)** with **Mox**-based testing.
+
 
 ![Verdemind: Generate a plant, watch LiveView fetch responses from OpenAI](/priv/static/images/verdemind-generate-plant-from-openai.gif)
 
