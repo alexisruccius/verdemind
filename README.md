@@ -54,6 +54,8 @@ To start the `Verdemind` Phoenix app:
 
   Once the server is running, open your browser and visit:
   [http://localhost:4000/generate-plant](http://localhost:4000/generate-plant)
+  (see image above)
+
 
   Or:
 
