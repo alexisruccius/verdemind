@@ -59,7 +59,7 @@ defmodule VerdemindWeb.MyComponents do
   def loading(assigns) do
     ~H"""
     <dev>
-      <dev :if={@item_async.loading} class="flex flex-row justify-start">
+      <dev :if={@item_async.loading} class="my-4 flex flex-row justify-start">
         <dev class="px-2 pt-1">
           <span class="relative flex size-3">
             <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-lime-400 opacity-75">
@@ -78,10 +78,11 @@ defmodule VerdemindWeb.MyComponents do
   """
   attr :form, Phoenix.HTML.Form, required: true
   attr :message, :string, default: "submit"
+  attr :id, :string, default: "submit-button"
 
   def submit_button(assigns) do
     ~H"""
-    <dev>
+    <dev id={@id}>
       <button
         :if={@form.source.valid?}
         phx-disable-with="..."

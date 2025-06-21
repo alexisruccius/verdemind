@@ -12,7 +12,12 @@ defmodule VerdemindWeb.GeneratePlantLive do
     <h1 class="text-lg font-bold py-4">Plant Generator</h1>
     <.form id="generate-plant-form" for={@form} phx-change="validate" phx-submit="generate-plant">
       <.input type="text" field={@form[:name]} placeholder="Rosemary" autofocus />
-      <.submit_button form={@form} message="generate plant" />
+      <.submit_button
+        :if={not is_list(@plant_async.loading)}
+        form={@form}
+        id="generate-plant-submit-button"
+        message="generate plant"
+      />
     </.form>
     <.plant_async plant_async={@plant_async}>
       <.live_component

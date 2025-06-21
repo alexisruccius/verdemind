@@ -170,6 +170,36 @@ defmodule VerdemindWeb.GeneratePlantLiveTest do
                ~s(<input type="text" name="plant[name]" id="plant_name" value="Rosemary")
     end
 
+    test "submit button is hidden if chatGPT loading message", %{conn: conn} do
+      # Mox
+      Verdemind.MockInstructorQuery
+      |> expect(
+        :instruct,
+        fn %{messages: messages}, _opts ->
+          [%{content: content}, _] = messages
+          :timer.sleep(200)
+          {:ok, %Plant{} |> struct!(name: content)}
+        end
+      )
+
+      {:ok, view, _html} = live(conn, ~p"/generate-plant")
+
+      assert view |> render() =~ "id=\"generate-plant-submit-button\""
+
+      result =
+        view
+        |> form("#generate-plant-form", generate_plant: %{"name" => "Rosemary"})
+        |> render_submit()
+
+      assert result =~ "asking ChatGPT..."
+      refute result =~ "id=\"generate-plant-submit-button\""
+
+      async_result = view |> render_async(9000)
+
+      assert async_result =~
+               ~s(<input type="text" name="plant[name]" id="plant_name" value="Rosemary")
+    end
+
     test "if :connection_error, submit plant name shows async loading message and error message",
          %{conn: conn} do
       # Mox
