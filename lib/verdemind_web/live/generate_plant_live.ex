@@ -13,7 +13,7 @@ defmodule VerdemindWeb.GeneratePlantLive do
     <.form id="generate-plant-form" for={@form} phx-change="validate" phx-submit="generate-plant">
       <.input type="text" field={@form[:name]} placeholder="Rosemary" autofocus />
       <.submit_button
-        :if={not is_list(@plant_async.loading)}
+        :if={is_nil(@plant_async.loading)}
         form={@form}
         id="generate-plant-submit-button"
         message="generate plant"
