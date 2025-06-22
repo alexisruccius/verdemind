@@ -1,5 +1,22 @@
 # Changelog
 
+## v0.3.0 (2025-06-16)
+
+### Features
+
+- Implement new user interface for `PlantLive`
+
+### Bug fixes
+
+- Hide submit button while loading result in Generate Plant LiveView
+
+### Enhancements
+
+- Improve overall test coverage
+- Add max length validation for Generate Plant name field
+- Refactor submit button visibility logic using `is_nil/1`
+- Add :os_mon for Phoenix dashboard monitoring
+
 
 ## v0.2.1 (2025-06-16)
 
