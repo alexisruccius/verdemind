@@ -329,6 +329,8 @@ defmodule VerdemindWeb.GeneratePlantLiveTest do
 
       assert html =~
                "Hmm, this might not be a plant. Please generate a new plant or set the confidence above 95."
+
+      assert html =~ "Almost there! A few fields need fixing before we can save this plant."
     end
   end
 end

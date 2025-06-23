@@ -35,6 +35,9 @@ defmodule VerdemindWeb.PlantLive.FormComponent do
         <.input field={@form[:uses]} type="text" label="Uses" />
         <.input field={@form[:common_pests]} type="text" label="Common pests" />
         <.input field={@form[:is_this_a_plant]} type="number" label="Is this a plant" />
+        <.error :if={@form.errors != []}>
+          Almost there! A few fields need fixing before we can save this plant.
+        </.error>
         <:actions>
           <.submit_button form={@form} message="Save Plant" />
         </:actions>

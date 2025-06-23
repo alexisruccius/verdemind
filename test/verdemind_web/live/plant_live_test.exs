@@ -171,6 +171,11 @@ defmodule VerdemindWeb.PlantLiveTest do
   describe "FormComponent" do
     setup [:create_plant]
 
+    test "returns the struct from .heex templates" do
+      assert %Phoenix.LiveView.Rendered{} =
+               VerdemindWeb.PlantLive.FormComponent.render(_assigns = %{})
+    end
+
     test "renders errors if submit invalid Plant attrs", %{conn: conn, plant: plant} do
       {:ok, show_live, _html} = live(conn, ~p"/plants/#{plant}")
 
@@ -184,9 +189,18 @@ defmodule VerdemindWeb.PlantLiveTest do
              |> render_submit() =~ "can&#39;t be blank"
     end
 
-    test "returns the struct from .heex templates" do
-      assert %Phoenix.LiveView.Rendered{} =
-               VerdemindWeb.PlantLive.FormComponent.render(_assigns = %{})
+    test "renders errors summary if invalid Plant attrs", %{conn: conn, plant: plant} do
+      {:ok, show_live, _html} = live(conn, ~p"/plants/#{plant}")
+
+      assert show_live |> element("a", "Edit") |> render_click() =~
+               ~s(<input type="text" name="plant[name]" id="plant_name")
+
+      assert_patch(show_live, ~p"/plants/#{plant}/show/edit")
+
+      assert show_live
+             |> form("#plant-form", plant: @invalid_attrs)
+             |> render_submit() =~
+               "Almost there! A few fields need fixing before we can save this plant."
     end
   end
 end
