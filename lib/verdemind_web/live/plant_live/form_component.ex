@@ -72,7 +72,7 @@ defmodule VerdemindWeb.PlantLive.FormComponent do
         {:noreply,
          socket
          |> put_flash(:info, "Plant updated successfully")
-         |> push_navigate(to: socket.assigns.patch)}
+         |> push_navigate(to: socket.assigns.navigate)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, form: to_form(changeset))}
@@ -85,7 +85,7 @@ defmodule VerdemindWeb.PlantLive.FormComponent do
         {:noreply,
          socket
          |> put_flash(:info, "Plant created successfully")
-         |> push_navigate(to: socket.assigns.patch)}
+         |> push_navigate(to: socket.assigns.navigate)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, form: to_form(changeset))}

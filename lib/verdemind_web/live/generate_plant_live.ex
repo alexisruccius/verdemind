@@ -25,7 +25,7 @@ defmodule VerdemindWeb.GeneratePlantLive do
         id="new_plant_from_generator"
         action={:new}
         plant={@plant_async.result.plant}
-        patch={~p"/plants"}
+        navigate={~p"/plants"}
       />
     </.plant_async>
     """
