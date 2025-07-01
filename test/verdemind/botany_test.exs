@@ -193,4 +193,13 @@ defmodule Verdemind.BotanyTest do
       assert %Ecto.Changeset{} = Botany.change_gererate_plant(generate_plant)
     end
   end
+
+  describe "SearchPlant" do
+    alias Verdemind.Botany.SearchPlant
+
+    test "change_search_plant/1 returns a search_plant changeset" do
+      search_plant = %SearchPlant{}
+      assert %Ecto.Changeset{} = Botany.change_search_plant(search_plant)
+    end
+  end
 end

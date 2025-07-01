@@ -1,4 +1,5 @@
 defmodule VerdemindWeb.PlantLiveTest do
+  alias Verdemind.Botany.Plant
   use VerdemindWeb.ConnCase
 
   import Phoenix.LiveViewTest
@@ -201,6 +202,35 @@ defmodule VerdemindWeb.PlantLiveTest do
              |> form("#plant-form", plant: @invalid_attrs)
              |> render_submit() =~
                "Almost there! A few fields need fixing before we can save this plant."
+    end
+  end
+
+  describe "SearchComponent" do
+    alias VerdemindWeb.PlantLive.SearchComponent
+
+    setup [:create_plant]
+
+    test "is present", %{conn: conn} do
+      {:ok, index_live, _html} = live(conn, ~p"/plants/")
+
+      assert index_live |> element("#plant-search") |> render() =~
+               ~s(<input type="text" name="search_plant[query]" id="search_plant_query")
+    end
+
+    test "is rendered" do
+      assert render_component(SearchComponent,
+               id: "plant-search",
+               all_plants: [%Plant{name: "Rosemary"}, %Plant{name: "Thyme"}]
+             ) =~
+               ~s(<input type="text" name="search_plant[query]" id="search_plant_query")
+    end
+
+    test "renders plants when change", %{conn: conn, plant: plant} do
+      {:ok, index_live, _html} = live(conn, ~p"/plants/")
+
+      assert index_live
+             |> form("#plant-search", search_plant: %{query: "some"})
+             |> render_change() =~ plant.name
     end
   end
 end

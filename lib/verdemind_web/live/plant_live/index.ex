@@ -41,4 +41,9 @@ defmodule VerdemindWeb.PlantLive.Index do
 
     {:noreply, stream_delete(socket, :plants, plant)}
   end
+
+  @impl true
+  def handle_info({:filtered_plants, filtered_plants}, socket) do
+    {:noreply, socket |> stream(:plants, filtered_plants |> Enum.reverse(), reset: true)}
+  end
 end
