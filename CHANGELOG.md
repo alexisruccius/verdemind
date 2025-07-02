@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.4.0 (2025-07-02)
+
+### Features
+
+- Add search component to `PlantLive`
+
+### Enhancements
+
+- Add validation error summary to `Plant` form
+
+
 ## v0.3.0 (2025-06-16)
 
 ### Features
