@@ -13,6 +13,8 @@ and using **Test-Driven Development (TDD)** with **Mox**-based testing.
 
 ![Verdemind: Generate a plant, watch LiveView fetch responses from OpenAI](/priv/static/images/verdemind-generate-plant-from-openai.gif)
 
+![Verdemind: Search for a plant](/priv/static/images/verdemind-search-plants.gif)
+
 
 ## Getting Started
 
