@@ -37,6 +37,26 @@ defmodule Verdemind.BotanyTest do
       assert Botany.list_plants() == [plant]
     end
 
+    test "list_plants/0 returns all plants in order most resent updated last, not id" do
+      plant_1 = plant_fixture(%{name: "plant 1"})
+      plant_2 = plant_fixture(%{name: "plant 2"})
+      plant_3 = plant_fixture(%{name: "plant 3"})
+
+      assert %{name: "plant 1"} = plant_1
+      assert %{name: "plant 2"} = plant_2
+      assert %{name: "plant 3"} = plant_3
+
+      assert Botany.list_plants() == [plant_1, plant_2, plant_3]
+
+      assert {:ok, plant_2_updated} = Botany.update_plant(plant_2, %{height: "some 30 cm higher"})
+
+      ordered_by_id = from p in Plant, order_by: p.id
+      assert Botany.list_plants(ordered_by_id) == [plant_1, plant_2_updated, plant_3]
+
+      refute Botany.list_plants() == [plant_1, plant_2_updated, plant_3]
+      assert Botany.list_plants() == [plant_1, plant_3, plant_2_updated]
+    end
+
     test "generate_plant_from_instructor/1 returns a plant" do
       # Mox
       Verdemind.MockInstructorQuery

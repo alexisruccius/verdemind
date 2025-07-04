@@ -21,8 +21,12 @@ defmodule Verdemind.Botany do
       [%Plant{}, ...]
 
   """
-  def list_plants do
-    Repo.all(Plant)
+  def list_plants(query \\ newest_last()) do
+    Repo.all(query)
+  end
+
+  defp newest_last() do
+    from p in Plant, order_by: p.updated_at
   end
 
   @doc """
