@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.4.1 (2025-07-12)
+
+### Bug Fixes
+
+- Order `list_plants/0` by most recently updated in `Botany`
+
 ## v0.4.0 (2025-07-02)
 
 ### Features
